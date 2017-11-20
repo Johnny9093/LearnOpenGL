@@ -1,5 +1,6 @@
 #include <glad\glad.h>
 #include <GLFW\glfw3.h>
+
 #include <iostream>
 
 // Window constants
@@ -9,6 +10,13 @@ const char* TITLE = "LearnOpenGL";
 
 // Declaring the window resize callback function
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void processInput(GLFWwindow *window);
+
+float vertices[] = {
+	-0.5f, -0.5f, 0.0f,
+	0.5f, -0.5f, 0.0f,
+	0.0f,  0.5f, 0.0f
+};
 
 int main()
 {
@@ -46,6 +54,23 @@ int main()
 	// Registering the window resize callback function
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
+	// Start render loop
+	while (!glfwWindowShouldClose(window))
+	{
+		// Check for specific input
+		processInput(window);
+
+		// Rendering
+		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
+
+		// Check and call events and swap the buffers
+		// Swapping refers to the Double Buffer - read more at https://learnopengl.com/#!Getting-started/Hello-Window
+		glfwPollEvents();
+		glfwSwapBuffers(window);
+	}
+
+	glfwTerminate();
 	return 0;
 }
 
@@ -53,4 +78,14 @@ int main()
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
+}
+
+// Process keyboard input
+void processInput(GLFWwindow *window)
+{
+	// Exit the application when the Escape key is pressed
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+	{
+		glfwSetWindowShouldClose(window, true);
+	}
 }
