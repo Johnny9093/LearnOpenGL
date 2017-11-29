@@ -22,9 +22,10 @@ const char *vertexShaderSource = "#version 330 core\n"
 
 const char *fragmentShaderSource = "#version 330 core\n"
 "out vec4 FragColor;\n"
+"uniform vec4 gradient;"
 "void main()\n"
 "{\n"
-"   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+"   FragColor = gradient; // vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
 "}\n\0";
 
 int main()
@@ -114,11 +115,18 @@ int main()
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
 
+	//float vertices[] = {
+	//	-0.5f, -0.5f, 0.0f, // bottom left
+	//	0.5f, -0.5f, 0.0f, // bottom right
+	//	-0.5f, 0.5f, 0.0f, // top left
+	//	0.5f,  0.5f, 0.0f // top right
+	//};
+
 	float vertices[] = {
-		-0.5f, -0.5f, 0.0f, // bottom left
-		0.5f, -0.5f, 0.0f, // bottom right
-		-0.5f, 0.5f, 0.0f, // top left
-		0.5f,  0.5f, 0.0f // top right
+		-1.0f, -1.0f, 0.0f, // bottom left
+		1.0f, -1.0f, 0.0f, // bottom right
+		-1.0f, 1.0f, 0.0f, // top left
+		1.0f,  1.0f, 0.0f // top right
 	};
 
 	unsigned int indices[] = {
@@ -171,11 +179,19 @@ int main()
 		processInput(window);
 
 		// Rendering
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		//glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
+
+		// Calculate gradient
+		float time = glfwGetTime();
+		float green = (sin(time) / 2.0f) + 0.5f;
+		int vertexColorLocation = glGetUniformLocation(shaderProgram, "gradient");
 
 		// Start using the shader program with our defined shaders
 		glUseProgram(shaderProgram);
+
+		// Set gradient
+		glUniform4f(vertexColorLocation, 0.0f, green, 0.0f, 1.0f);
 
 		// Bind VAO to get the vertex attribute configuration and vertex data
 		glBindVertexArray(VAO);
