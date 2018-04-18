@@ -7,20 +7,13 @@
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
 
-// Settings
+// Window settings
 const int WIDTH = 800;
 const int HEIGHT = 600;
 const char* TITLE = "LearnOpenGL";
 
 // Shader code
-const char *rectangleVertexShaderSource = "#version 330 core\n"
-"layout (location = 0) in vec3 aPos;\n"
-"void main()\n"
-"{\n"
-"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-"}\0";
-
-const char *triangleVertexShaderSource = "#version 330 core\n"
+const char *vertexShaderSource = "#version 330 core\n"
 "layout (location = 0) in vec3 aPos;\n"
 "layout (location = 1) in vec3 aColor;\n"
 "out vec3 color;\n"
@@ -30,24 +23,18 @@ const char *triangleVertexShaderSource = "#version 330 core\n"
 "	color = aColor;\n"
 "}\0";
 
-const char *gradientFragmentShaderSource = "#version 330 core\n"
+const char *fragmentShaderSource = "#version 330 core\n"
 "out vec4 FragColor;\n"
-"uniform vec4 gradient;"
+"in vec3 color;\n"
 "void main()\n"
 "{\n"
-"   FragColor = gradient; // vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-"}\n\0";
-
-const char *aColorFragmentShaderSource = "#version 330 core\n"
-"out vec4 FragColor;\n"
-"in vec3 aColor;\n"
-"void main()\n"
-"{\n"
-"   FragColor = vec4(aColor, 1.0);\n"
+"   FragColor = vec4(color, 1.0);\n"
 "}\n\0";
 
 int main()
 {
+	#pragma region GLFW Window
+
 	// Initialize GLFW and tell it which OpenGL version we're using (3.3 Core)
 	// Core means we'll get access to a smaller subset of OpenGL features (without backwards-compatible features we no longer need)
 	glfwInit();
@@ -78,11 +65,15 @@ int main()
 		return -1;
 	}
 
+	#pragma endregion
+
+	#pragma region Shaders
+
 	// Creating vertex shader
 	unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
 
 	// Compiling
-	glShaderSource(vertexShader, 1, &rectangleVertexShaderSource, NULL);
+	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
 	glCompileShader(vertexShader);
 
 	// Error checking
@@ -100,7 +91,7 @@ int main()
 	unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 
 	// Compiling
-	glShaderSource(fragmentShader, 1, &gradientFragmentShaderSource, NULL);
+	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
 	glCompileShader(fragmentShader);
 
 	// Error checking
@@ -133,28 +124,24 @@ int main()
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
 
-	float triangle[] = {
+	#pragma endregion
+
+	#pragma region Data
+
+	float vertices[] = {
 		//x      y     z     r     g     b
-		0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,  // bottom right
-		-0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, // bottom left
-		0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f // top
+		0.5f, -0.5f, 0.0f,	1.0f, 1.0f, 1.0f,  // bottom right
+		-0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f, // bottom left
+		0.0f, 0.5f, 0.0f,	1.0f, 1.0f, 1.0f // top
 	};
 
-	float rectangle_vertices[] = {
-		-1.0f, -1.0f, 0.0f, // bottom left
-		1.0f, -1.0f, 0.0f, // bottom right
-		-1.0f, 1.0f, 0.0f, // top left
-		1.0f,  1.0f, 0.0f // top right
-	};
-
-	unsigned int triangle_indices[] = {
+	unsigned int indices[] = {
 		0, 1, 2
 	};
 
-	unsigned int rectangle_indices[] = {
-		0, 1, 2,
-		1, 2, 3
-	};
+	#pragma endregion
+
+	#pragma region Buffers
 
 	unsigned int VAO, VBO, EBO;
 
@@ -171,24 +158,13 @@ int main()
 	glBindVertexArray(VAO);
 
 	// VBO
-	#pragma region Gradient
-	//// Binding the VBO and copying the vertices to the vertex buffer
-	//glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(rectangle), rectangle, GL_STATIC_DRAW); // GL_STATIC_DRAW means this data will change very rarely, if at all.
-
-	//// Tell OpenGL how to read the VBO:
-	//// We passed in vertices structured as an array of floats, where every triplet of floats is a vertex.
-	//// This also registers the VBO as the vertex attribute's bound vertex buffer object
-	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	//glEnableVertexAttribArray(0);
-	#pragma endregion
 
 	// Binding the VBO and copying the vertices to the vertex buffer
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(triangle), triangle, GL_STATIC_DRAW); // GL_STATIC_DRAW means this data will change very rarely, if at all.
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW); // GL_STATIC_DRAW means this data will change very rarely, if at all.
 
 	// Tell OpenGL how to read the VBO:
-	// We passed in vertices structured as an array of floats, where every triplet of floats is a vertex.
+	// We passed in vertices structured as an array of floats, where every first triplet of floats is a vertex, and every second triplet of floats is a color.
 	// This also registers the VBO as the vertex attribute's bound vertex buffer object
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
@@ -201,13 +177,17 @@ int main()
 
 	// Binding the EBO and copying the indices to the index buffer
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(triangle_indices), triangle_indices, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
 	// Unbind current buffer
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	// Unbind VAO
-	glBindVertexArray(0);
+	#pragma endregion
+
+	#pragma region Render Loop
+
+	// Start using the shader program with our defined shaders
+	glUseProgram(shaderProgram);
 
 	// Start render loop
 	while (!glfwWindowShouldClose(window))
@@ -215,31 +195,17 @@ int main()
 		// Check for specific input
 		processInput(window);
 
-		// Rendering
-		//glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		// Set background color
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
-
-		// Calculate gradient
-		float time = glfwGetTime();
-		float green = (sin(time) / 2.0f) + 0.5f;
-		int vertexColorLocation = glGetUniformLocation(shaderProgram, "gradient");
-
-		// Start using the shader program with our defined shaders
-		glUseProgram(shaderProgram);
-
-		// Set gradient
-		glUniform4f(vertexColorLocation, 0.0f, green, 0.0f, 1.0f);
 
 		// Bind VAO to get the vertex attribute configuration and vertex data
 		glBindVertexArray(VAO);
 		
-		//// Draw vertices
-		//glDrawArrays(GL_TRIANGLES, 0, 3);
-
 		// Draw indexed vertices
 		// Bind the EBO and draw the indices
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
 
 		// Check and call events and swap the buffers
 		// Swapping refers to the Double Buffer - read more at https://learnopengl.com/#!Getting-started/Hello-Window
@@ -247,8 +213,14 @@ int main()
 		glfwSwapBuffers(window);
 	}
 
+	#pragma endregion
+
+	#pragma region Cleanup
+
 	glfwTerminate();
 	return 0;
+
+	#pragma endregion
 }
 
 // Callback function to reset the viewport with the correct coordinates whenever a window resize occurrs
