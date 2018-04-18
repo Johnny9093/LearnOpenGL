@@ -3,6 +3,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="glad.c" />
+    <ClCompile Include="stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader.h" />
@@ -10,5 +11,9 @@
   <ItemGroup>
     <None Include="fragment.s" />
     <None Include="vertex.s" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\container.jpg" />
+    <Image Include="res\wall.jpg" />
   </ItemGroup>
 </Project>

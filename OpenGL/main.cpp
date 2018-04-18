@@ -1,5 +1,6 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include "stb_image.h"
 
 #include "Shader.h"
 
@@ -13,6 +14,8 @@ void processInput(GLFWwindow *window);
 const int WIDTH = 800;
 const int HEIGHT = 600;
 const char* TITLE = "LearnOpenGL";
+
+float mixValue = 0.2f;
 
 int main()
 {
@@ -58,20 +61,98 @@ int main()
 
 	#pragma region Data
 
+	//float vertices[] = {
+	//	//x      y     z     r     g     b
+	//	0.5f, -0.5f, 0.0f,	1.0f, 1.0f, 1.0f,  // bottom right
+	//	-0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f, // bottom left
+	//	0.0f, 0.5f, 0.0f,	1.0f, 1.0f, 1.0f // top
+	//};
+
+	// Rectangle
 	float vertices[] = {
-		//x      y     z     r     g     b
-		0.5f, -0.5f, 0.0f,	1.0f, 1.0f, 1.0f,  // bottom right
-		-0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f, // bottom left
-		0.0f, 0.5f, 0.0f,	1.0f, 1.0f, 1.0f // top
+		// positions          // colors           // texture coords
+		0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
+		0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
+		-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
+		-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // top left 
 	};
 
 	unsigned int indices[] = {
-		0, 1, 2
+		0, 1, 2, 0, 2, 3
 	};
 
 	#pragma endregion
 
-	#pragma region Buffers
+	#pragma region Textures
+
+	#pragma region Texture 1
+
+	// Create and bind texture
+	unsigned int texture1;
+	glGenTextures(1, &texture1);
+	glBindTexture(GL_TEXTURE_2D, texture1);
+
+	// Set wrapping and filtering options
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	// Flip vertically to match coordinate system
+	stbi_set_flip_vertically_on_load(true);
+
+	// Load texture image
+	int width, height, nrChannels;
+	unsigned char *data = stbi_load("res\\container.jpg", &width, &height, &nrChannels, 0);
+
+	if (data) {
+		// Generate texture and mipmaps
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else {
+		std::cout << "Failed to load texture" << std::endl;
+	}
+
+	// Free image memory
+	stbi_image_free(data);
+
+	#pragma endregion
+
+	#pragma region Texture 2
+
+	// Create and bind texture
+	unsigned int texture2;
+	glGenTextures(1, &texture2);
+	glBindTexture(GL_TEXTURE_2D, texture2);
+
+	// Set wrapping and filtering options
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	// Load texture image
+	width, height, nrChannels = 0;
+	data = stbi_load("res\\awesomeface.png", &width, &height, &nrChannels, 0);
+
+	if (data) {
+		// Generate texture and mipmaps
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else {
+		std::cout << "Failed to load texture" << std::endl;
+	}
+
+	// Free image memory
+	stbi_image_free(data);
+
+	#pragma endregion
+
+	#pragma endregion
+
+	#pragma region VAO
 
 	unsigned int VAO, VBO, EBO;
 
@@ -96,12 +177,16 @@ int main()
 	// Tell OpenGL how to read the VBO:
 	// We passed in vertices structured as an array of floats, where every first triplet of floats is a vertex, and every second triplet of floats is a color.
 	// This also registers the VBO as the vertex attribute's bound vertex buffer object
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 
 	// Color attribute	 (location, size, type, ?, stride (space between same attribute of next vertex), pointer (offset from start of vertex to attribute))
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
+
+	// Texture coordinates
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+	glEnableVertexAttribArray(2);
 
 	// EBO
 
@@ -116,6 +201,16 @@ int main()
 
 	#pragma region Render Loop
 
+	// Start using the shader program with our defined shaders
+	shader.use();
+	shader.setInt("texture2", 1);
+
+	// Bind textures
+	glActiveTexture(GL_TEXTURE0); // container
+	glBindTexture(GL_TEXTURE_2D, texture1);
+	glActiveTexture(GL_TEXTURE1); // smiley
+	glBindTexture(GL_TEXTURE_2D, texture2);
+
 	// Start render loop
 	while (!glfwWindowShouldClose(window))
 	{
@@ -123,24 +218,32 @@ int main()
 		processInput(window);
 
 		// Set background color
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		// Start using the shader program with our defined shaders
-		shader.use();
+		//// Compute position offset
+		//float timeValue = glfwGetTime();
+		//float vertical = sin(timeValue) / 2.0f;
+		//float horizontal = cos(timeValue) / 2.0f;
+		//
+		//shader.setVec3("offset", horizontal, vertical, 0);
+
+		//// Set color gradient
+		//shader.setVec4("gradient", 0, sin(timeValue) / 2.0f + 0.5f, 0, 0);
+
+		shader.setFloat("mixValue", mixValue);
 
 		// Bind VAO to get the vertex attribute configuration and vertex data
 		glBindVertexArray(VAO);
 		
 		// Draw indexed vertices
 		// Bind the EBO and draw the indices
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		// Check and call events and swap the buffers
 		// Swapping refers to the Double Buffer - read more at https://learnopengl.com/#!Getting-started/Hello-Window
-		glfwPollEvents();
 		glfwSwapBuffers(window);
+		glfwPollEvents();
 	}
 
 	#pragma endregion
@@ -164,6 +267,19 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 // Process keyboard input
 void processInput(GLFWwindow *window)
 {
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+	{
+		mixValue += 0.005f; // change this value accordingly (might be too slow or too fast based on system hardware)
+		if (mixValue >= 1.0f)
+			mixValue = 1.0f;
+	}
+	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+	{
+		mixValue -= 0.005f; // change this value accordingly (might be too slow or too fast based on system hardware)
+		if (mixValue <= 0.0f)
+			mixValue = 0.0f;
+	}
+
 	// Exit the application when the Escape key is pressed
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 	{
