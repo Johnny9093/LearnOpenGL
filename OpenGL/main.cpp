@@ -15,7 +15,7 @@ int main()
 {
 	#pragma region GLFW Window
 
-	if (!DisplayManager::CreateDisplay()) {
+	if (!DisplayManager::createDisplay()) {
 		return -1;
 	}
 
@@ -180,9 +180,9 @@ int main()
 	glBindTexture(GL_TEXTURE_2D, texture2);
 
 	// Start render loop
-	while (!DisplayManager::WindowShouldClose())
+	while (!DisplayManager::windowShouldClose())
 	{
-		DisplayManager::UpdateDisplay();
+		DisplayManager::updateDisplay();
 
 		// Check for specific input
 		processInput(DisplayManager::getWindow());
@@ -215,7 +215,7 @@ int main()
 
 	#pragma region Cleanup
 
-	DisplayManager::CloseDisplay();
+	DisplayManager::closeDisplay();
 	return 0;
 
 	#pragma endregion

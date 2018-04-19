@@ -21,7 +21,7 @@ GLFWwindow *DisplayManager::getWindow() {
 	return DisplayManager::window;
 }
 
-bool DisplayManager::CreateDisplay()
+bool DisplayManager::createDisplay()
 {
 	// Initialize GLFW and tell it which OpenGL version we're using (3.3 Core)
 	// Core means we'll get access to a smaller subset of OpenGL features (without backwards-compatible features we no longer need)
@@ -36,7 +36,7 @@ bool DisplayManager::CreateDisplay()
 	if (DisplayManager::window == NULL)
 	{
 		std::cout << "Failed to create GLFW window" << std::endl;
-		DisplayManager::CloseDisplay();
+		DisplayManager::closeDisplay();
 		return false;
 	}
 
@@ -50,14 +50,14 @@ bool DisplayManager::CreateDisplay()
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
 		std::cout << "Failed to initialize GLAD" << std::endl;
-		DisplayManager::CloseDisplay();
+		DisplayManager::closeDisplay();
 		return false;
 	}
 
 	return true;
 }
 
-void DisplayManager::UpdateDisplay()
+void DisplayManager::updateDisplay()
 {
 	// Check and call events and swap the buffers
 	// Swapping refers to the Double Buffer - read more at https://learnopengl.com/#!Getting-started/Hello-Window
@@ -65,12 +65,12 @@ void DisplayManager::UpdateDisplay()
 	glfwPollEvents();
 }
 
-bool DisplayManager::WindowShouldClose()
+bool DisplayManager::windowShouldClose()
 {
 	return glfwWindowShouldClose(DisplayManager::window);
 }
 
-void DisplayManager::CloseDisplay()
+void DisplayManager::closeDisplay()
 {
 	glfwTerminate();
 }

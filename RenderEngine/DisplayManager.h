@@ -7,10 +7,10 @@ class DisplayManager
 public:
 	static GLFWwindow *getWindow();
 
-	static bool CreateDisplay();
-	static void UpdateDisplay();
-	static void CloseDisplay();
-	static bool WindowShouldClose();
+	static bool createDisplay();
+	static void updateDisplay();
+	static void closeDisplay();
+	static bool windowShouldClose();
 
 private:
 	static GLFWwindow* window;
