@@ -18,7 +18,7 @@ const char* TITLE = "LearnOpenGL";
 GLFWwindow* DisplayManager::window;
 
 GLFWwindow *DisplayManager::getWindow() {
-	return DisplayManager::window;
+	return window;
 }
 
 bool DisplayManager::createDisplay()
@@ -31,26 +31,26 @@ bool DisplayManager::createDisplay()
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	// Create GLFW window
-	DisplayManager::window = glfwCreateWindow(WIDTH, HEIGHT, TITLE, NULL, NULL);
+	window = glfwCreateWindow(WIDTH, HEIGHT, TITLE, NULL, NULL);
 
-	if (DisplayManager::window == NULL)
+	if (window == NULL)
 	{
 		std::cout << "Failed to create GLFW window" << std::endl;
-		DisplayManager::closeDisplay();
+		closeDisplay();
 		return false;
 	}
 
 	// Make the context of our window the main context on the current thread
-	glfwMakeContextCurrent(DisplayManager::window);
+	glfwMakeContextCurrent(window);
 
 	// Registering the window resize callback function
-	glfwSetFramebufferSizeCallback(DisplayManager::window, framebuffer_size_callback);
+	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
 	// Initialize GLAD with the OS-specific function to get function addresses and load all OpenGL function pointers
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
 		std::cout << "Failed to initialize GLAD" << std::endl;
-		DisplayManager::closeDisplay();
+		closeDisplay();
 		return false;
 	}
 
@@ -61,13 +61,13 @@ void DisplayManager::updateDisplay()
 {
 	// Check and call events and swap the buffers
 	// Swapping refers to the Double Buffer - read more at https://learnopengl.com/#!Getting-started/Hello-Window
-	glfwSwapBuffers(DisplayManager::window);
+	glfwSwapBuffers(window);
 	glfwPollEvents();
 }
 
 bool DisplayManager::windowShouldClose()
 {
-	return glfwWindowShouldClose(DisplayManager::window);
+	return glfwWindowShouldClose(window);
 }
 
 void DisplayManager::closeDisplay()
