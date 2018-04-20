@@ -1,11 +1,10 @@
 #pragma once
 
-#include "RawModel.h"
+#include "TexturedModel.h"
 
 class Renderer
 {
 public:
 	void prepare();
-	void render(RawModel model);
+	void render(TexturedModel texturedModel);
 };
-

@@ -7,13 +7,15 @@ class Loader
 {
 public:
 	RawModel loadToVAO(std::vector<float> vertices, std::vector<unsigned int> indices);
+	unsigned int loadTexture(const char *texturePath);
 	void cleanUp();
 
 private:
 	std::vector<unsigned int> vaoIds;
 	std::vector<unsigned int> vboIds;
+	std::vector<unsigned int> textureIds;
 
-	int createVAO();
+	unsigned int createVAO();
 	void storeDataInAttributeList(int attributeNumber, std::vector<float> vertices);
 	void bindIndicesBuffer(std::vector<unsigned int> indices);
 	void unbindVAO();

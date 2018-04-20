@@ -5,7 +5,7 @@
 #include "DisplayManager.h"
 
 #include <GLFW/glfw3.h>
-#include "stb_image.h"
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -179,6 +179,8 @@ int main()
 	StaticShader shader = StaticShader();
 
 	RawModel model = loader.loadToVAO(vertices, indices);
+	ModelTexture texture = ModelTexture(loader.loadTexture("res\\container.jpg"));
+	TexturedModel texturedModel = TexturedModel(model, texture);
 
 	#pragma region Render Loop
 
@@ -198,7 +200,7 @@ int main()
 	{
 		renderer.prepare();
 		shader.start();
-		renderer.render(model);
+		renderer.render(texturedModel);
 		shader.stop();
 
 		DisplayManager::updateDisplay();

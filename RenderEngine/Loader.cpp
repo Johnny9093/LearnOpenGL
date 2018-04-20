@@ -1,6 +1,8 @@
 #include "Loader.h"
 
+#include "stb_image.h"
 #include <glad\glad.h>
+#include <iostream>
 
 RawModel Loader::loadToVAO(std::vector<float> vertices, std::vector<unsigned int> indices)
 {
@@ -11,7 +13,43 @@ RawModel Loader::loadToVAO(std::vector<float> vertices, std::vector<unsigned int
 	return RawModel(vaoId, indices.size());
 }
 
-int Loader::createVAO()
+unsigned int Loader::loadTexture(const char *texturePath) {
+	// Flip texture vertically to match coordinate system
+	stbi_set_flip_vertically_on_load(true);
+
+	// Create and bind texture
+	unsigned int texture;
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+
+	vaoIds.push_back(texture);
+
+	// Set wrapping and filtering options
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	// Load texture image
+	int width, height, nrChannels;
+	unsigned char *imgData = stbi_load(texturePath, &width, &height, &nrChannels, 0);
+
+	if (imgData) {
+		// Generate texture and mipmaps
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, imgData);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else {
+		std::cout << "Failed to load texture" << std::endl;
+	}
+
+	// Free image memory
+	stbi_image_free(imgData);
+
+	return texture;
+}
+
+unsigned int Loader::createVAO()
 {
 	unsigned int VAO;
 
@@ -62,4 +100,5 @@ void Loader::cleanUp()
 {
 	glDeleteVertexArrays(vaoIds.size(), vaoIds.data());
 	glDeleteBuffers(vboIds.size(), vboIds.data());
+	glDeleteTextures(textureIds.size(), textureIds.data());
 }
