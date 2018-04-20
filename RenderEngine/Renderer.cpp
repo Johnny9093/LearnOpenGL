@@ -1,7 +1,19 @@
 #include "Renderer.h"
 #include "MatrixMath.h"
+#include "DisplayManager.h"
 
 #include <glad/glad.h>
+
+const float Renderer::FOV = 70;
+const float Renderer::NEAR_PLANE = 0.1f;
+const float Renderer::FAR_PLANE = 1000;
+
+Renderer::Renderer(StaticShader shader) {
+	projectionMatrix = MatrixMath::createProjectionMatrix(DisplayManager::getWidth(), DisplayManager::getHeight(), FOV, NEAR_PLANE, FAR_PLANE);
+	shader.start();
+	shader.loadProjectionMatrix(projectionMatrix);
+	shader.stop();
+}
 
 void Renderer::prepare()
 {
@@ -10,6 +22,7 @@ void Renderer::prepare()
 }
 
 void Renderer::render(Entity entity, StaticShader shader) {
+
 	RawModel model = entity.getModel().getRawModel();
 	Texture texture = entity.getModel().getTexture();
 

@@ -1,6 +1,8 @@
 #pragma once
 
 #include "ShaderProgram.h"
+#include "Camera.h"
+
 #include <glm\glm.hpp>
 
 class StaticShader : public ShaderProgram
@@ -8,6 +10,8 @@ class StaticShader : public ShaderProgram
 public:
 	StaticShader();
 	void loadTransformationMatrix(glm::mat4 matrix);
+	void loadProjectionMatrix(glm::mat4 matrix);
+	void loadViewMatrix(Camera camera);
 
 protected:
 	void bindAttributes();
@@ -19,4 +23,5 @@ private:
 
 	unsigned int transMat_location;
 	unsigned int projMat_location;
+	unsigned int viewMat_location;
 };

@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-void processInput(GLFWwindow *window, Entity *entity);
+void processInput(GLFWwindow *window, Entity *entity, Camera *camera);
 
 int main()
 {
@@ -58,13 +58,14 @@ int main()
 	#pragma endregion
 
 	Loader loader = Loader();
-	Renderer renderer = Renderer();
 	StaticShader shader = StaticShader();
+	Renderer renderer = Renderer(shader);
 
 	RawModel model = loader.loadToVAO(vertices, textureCoords, indices);
 	Texture texture = Texture(loader.loadTexture("res\\container.jpg"));
-	TexturedModel texturedModel = TexturedModel(model, texture);
-	Entity entity = Entity(texturedModel, 0, 0, 0, 0, 0, 0, 1, 1, 1);
+	TexturedModel staticModel = TexturedModel(model, texture);
+	Entity entity = Entity(staticModel, 0, 0, -1, 0, 0, 0, 1, 1, 1);
+	Camera camera = Camera();
 
 	#pragma region Render Loop
 
@@ -73,13 +74,14 @@ int main()
 	{
 		renderer.prepare();
 		shader.start();
+		shader.loadViewMatrix(camera);
 		renderer.render(entity, shader);
 		shader.stop();
 
 		DisplayManager::updateDisplay();
 
 		// Check for specific input
-		processInput(DisplayManager::getWindow(), &entity);
+		processInput(DisplayManager::getWindow(), &entity, &camera);
 	}
 
 	#pragma endregion
@@ -95,11 +97,17 @@ int main()
 }
 
 // Process keyboard input
-void processInput(GLFWwindow *window, Entity *entity) {
+void processInput(GLFWwindow *window, Entity *entity, Camera *camera) {
 	float x = 0.0f;
 	float y = 0.0f;
+	float z = 0.0f;
 
-	// Calculate dx and dy and move entity accordingly
+	float c_x = 0.0f;
+	float c_y = 0.0f;
+	float c_z = 0.0f;
+
+	// Entity
+
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
 		x += 0.005f;
 	}
@@ -116,7 +124,42 @@ void processInput(GLFWwindow *window, Entity *entity) {
 		y -= 0.005f;
 	}
 
-	entity->move(x, y, 0);
+	if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS) {
+		z -= 0.005f;
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS) {
+		z += 0.005f;
+	}
+
+	// Camera
+
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+		c_x += 0.005f;
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+		c_x -= 0.005f;
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+		c_y += 0.005f;
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+		c_y -= 0.005f;
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS) {
+		c_z -= 0.005f;
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS) {
+		c_z += 0.005f;
+	}
+
+	entity->move(x, y, z);
+	camera->move(c_x, c_y, c_z);
 
 	// Exit the application when the Escape key is pressed
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
