@@ -39,13 +39,13 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -74,6 +74,14 @@
     <LibraryPath>$(SolutionDir)Lib\dll\$(PlatformArchitecture)bit;$(SolutionDir)Lib\lib\$(PlatformArchitecture)bit;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(SolutionDir)Include\$(PlatformArchitecture)bit;$(SolutionDir)Include\noarch;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Lib\dll\$(PlatformArchitecture)bit;$(SolutionDir)Lib\lib\$(PlatformArchitecture)bit;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(SolutionDir)Include\$(PlatformArchitecture)bit;$(SolutionDir)Include\noarch;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Lib\dll\$(PlatformArchitecture)bit;$(SolutionDir)Lib\lib\$(PlatformArchitecture)bit;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(SolutionDir)Include\$(PlatformArchitecture)bit;$(SolutionDir)Include\noarch;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Lib\dll\$(PlatformArchitecture)bit;$(SolutionDir)Lib\lib\$(PlatformArchitecture)bit;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
