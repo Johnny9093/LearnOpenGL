@@ -7,6 +7,10 @@ class Camera
 public:
 	void move(glm::vec3 delta);
 	void move(float dx, float dy, float dz);
+	void givePitch(float pitch);
+	void giveYaw(float yaw);
+	void giveRoll(float roll);
+
 
 	glm::vec3 getPosition();
 	float getPitch();

@@ -10,6 +10,18 @@ void Camera::move(float dx, float dy, float dz) {
 	position.z += dz;
 }
 
+void Camera::givePitch(float pitch) {
+	Camera::pitch += pitch;
+}
+
+void Camera::giveYaw(float yaw) {
+	Camera::yaw += yaw;
+}
+
+void Camera::giveRoll(float roll) {
+	Camera::roll += roll;
+}
+
 glm::vec3 Camera::getPosition() {
 	return position;
 }
