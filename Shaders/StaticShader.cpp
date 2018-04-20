@@ -11,3 +11,11 @@ void StaticShader::bindAttributes() {
 	ShaderProgram::bindAttribute(0, "position");
 	ShaderProgram::bindAttribute(1, "textureCoords");
 }
+
+void StaticShader::getAllUniformLocations() {
+	transMat_location = ShaderProgram::getUniformLocation("transformationMatrix");
+}
+
+void StaticShader::loadTransformationMatrix(glm::mat4 matrix) {
+	ShaderProgram::setMat4(transMat_location, matrix);
+}

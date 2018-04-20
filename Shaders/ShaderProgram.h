@@ -13,20 +13,23 @@ public:
 	void cleanUp();
 protected:
 	virtual void bindAttributes() = 0;
-	void bindAttribute(int attribute, const char *attributeName);
+	virtual void getAllUniformLocations() = 0;
 
-	void setBool(const std::string &name, bool value) const;
-	void setInt(const std::string &name, int value) const;
-	void setFloat(const std::string &name, float value) const;
-	void setVec2(const std::string &name, const glm::vec2 &value) const;
-	void setVec2(const std::string &name, float x, float y) const;
-	void setVec3(const std::string &name, const glm::vec3 &value) const;
-	void setVec3(const std::string &name, float x, float y, float z) const;
-	void setVec4(const std::string &name, const glm::vec4 &value) const;
-	void setVec4(const std::string &name, float x, float y, float z, float w) const;
-	void setMat2(const std::string &name, const glm::mat2 &mat) const;
-	void setMat3(const std::string &name, const glm::mat3 &mat) const;
-	void setMat4(const std::string &name, const glm::mat4 &mat) const;
+	void bindAttribute(int attribute, const char *attributeName);
+	int getUniformLocation(const char *uniformName);
+
+	void setBool(const int uniformLocation, bool value) const;
+	void setInt(const int uniformLocation, int value) const;
+	void setFloat(const int uniformLocation, float value) const;
+	void setVec2(const int uniformLocation, const glm::vec2 &value) const;
+	void setVec2(const int uniformLocation, float x, float y) const;
+	void setVec3(const int uniformLocation, const glm::vec3 &value) const;
+	void setVec3(const int uniformLocation, float x, float y, float z) const;
+	void setVec4(const int uniformLocation, const glm::vec4 &value) const;
+	void setVec4(const int uniformLocation, float x, float y, float z, float w) const;
+	void setMat2(const int uniformLocation, const glm::mat2 &mat) const;
+	void setMat3(const int uniformLocation, const glm::mat3 &mat) const;
+	void setMat4(const int uniformLocation, const glm::mat4 &mat) const;
 	
 private:
 	int programId;
