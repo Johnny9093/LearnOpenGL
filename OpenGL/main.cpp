@@ -36,10 +36,15 @@ int main()
 		-0.5f, 0.5f, 0.0f,
 		-0.5f, -0.5f, 0.0f,
 		0.5f, -0.5f, 0.0f,
-		0.5f, -0.5f, 0.0f,
 		0.5f, 0.5f, 0.0f,
-		-0.5f, 0.5f, 0.0f
 	};
+
+	unsigned int index[] = {
+	 	0, 1, 3, 3, 1, 2
+	};
+
+	std::vector<float> vertices(quad, quad + sizeof(quad) / sizeof(float));
+	std::vector<unsigned int> indices(index, index + sizeof(index) / sizeof(unsigned int));
 
 	//float vertices[] = {
 	//	//x      y     z     r     g     b
@@ -56,13 +61,6 @@ int main()
 	//	-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
 	//	-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // top left 
 	//};
-
-	//unsigned int indices[] = {
-	//	0, 1, 2, 0, 2, 3
-	//};
-
-	std::vector<float> data(quad, quad + sizeof(quad) / sizeof(float));
-	/*std::vector<float> data(vertices, vertices + sizeof(vertices) / sizeof(float));*/
 
 	#pragma endregion
 
@@ -185,7 +183,7 @@ int main()
 	Loader loader = Loader();
 	Renderer renderer = Renderer();
 
-	RawModel model = loader.loadToVAO(data);
+	RawModel model = loader.loadToVAO(vertices, indices);
 
 	#pragma region Render Loop
 
