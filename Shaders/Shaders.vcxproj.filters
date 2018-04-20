@@ -27,8 +27,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="static.fs.old" />
-    <None Include="static.vs.old" />
     <None Include="shaders\static.vs" />
     <None Include="shaders\static.fs" />
   </ItemGroup>
