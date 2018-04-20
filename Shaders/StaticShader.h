@@ -7,12 +7,13 @@ class StaticShader : public ShaderProgram
 {
 public:
 	StaticShader();
+	void loadTransformationMatrix(glm::mat4 matrix);
+
 protected:
 	void bindAttributes();
 	void getAllUniformLocations();
-private:
-	void loadTransformationMatrix(glm::mat4 matrix);
 
+private:
 	static const char *VERTEX_FILE;
 	static const char *FRAGMENT_FILE;
 

@@ -1,17 +1,17 @@
 #pragma once
 
 #include "RawModel.h"
-#include "ModelTexture.h"
+#include "Texture.h"
 
 class TexturedModel
 {
 public:
-	TexturedModel(const RawModel model, const ModelTexture texture);
+	TexturedModel(const RawModel model, const Texture texture);
 
-	RawModel getModel();
-	ModelTexture getTexture();
+	RawModel getRawModel();
+	Texture getTexture();
 
 private:
 	RawModel model;
-	ModelTexture texture;
+	Texture texture;
 };

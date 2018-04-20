@@ -1,9 +1,9 @@
 #pragma once
 
-class ModelTexture
+class Texture
 {
 public:
-	ModelTexture(unsigned int id);
+	Texture(unsigned int id);
 
 	unsigned int getTextureId();
 private:

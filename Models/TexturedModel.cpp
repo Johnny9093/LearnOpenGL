@@ -1,13 +1,13 @@
 #include "TexturedModel.h"
 
-TexturedModel::TexturedModel(const RawModel rawModel, const ModelTexture modelTexture): 
+TexturedModel::TexturedModel(const RawModel rawModel, const Texture modelTexture): 
 	model(rawModel),
 	texture(modelTexture) { }
 
-RawModel TexturedModel::getModel() {
+RawModel TexturedModel::getRawModel() {
 	return model;
 }
 
-ModelTexture TexturedModel::getTexture() {
+Texture TexturedModel::getTexture() {
 	return texture;
 }
