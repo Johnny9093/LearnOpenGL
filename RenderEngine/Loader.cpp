@@ -4,11 +4,11 @@
 #include <glad\glad.h>
 #include <iostream>
 
-RawModel Loader::loadToVAO(std::vector<float> vertices, std::vector<unsigned int> indices)
-{
+RawModel Loader::loadToVAO(std::vector<float> vertices, std::vector<float> textureCoords, std::vector<unsigned int> indices) {
 	unsigned int vaoId = createVAO();
 	bindIndicesBuffer(indices);
-	storeDataInAttributeList(0, vertices);
+	storeDataInAttributeList(0, 3, vertices);
+	storeDataInAttributeList(1, 2, textureCoords);
 	unbindVAO();
 	return RawModel(vaoId, indices.size());
 }
@@ -63,7 +63,7 @@ unsigned int Loader::createVAO()
 	return VAO;
 }
 
-void Loader::storeDataInAttributeList(int attributeNumber, std::vector<float> vertices)
+void Loader::storeDataInAttributeList(int attributeNumber, int coordinateSize, std::vector<float> vertices)
 {
 	unsigned int VBO;
 	glGenBuffers(1, &VBO);
@@ -75,7 +75,7 @@ void Loader::storeDataInAttributeList(int attributeNumber, std::vector<float> ve
 	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), GL_STATIC_DRAW); // GL_STATIC_DRAW means this data will change very rarely, if at all.
 	
 	// Put the VBO in the attribute list of the VAO
-	glVertexAttribPointer(attributeNumber, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glVertexAttribPointer(attributeNumber, coordinateSize, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
 	// Unbind VBO
 	glBindBuffer(GL_ARRAY_BUFFER, 0);

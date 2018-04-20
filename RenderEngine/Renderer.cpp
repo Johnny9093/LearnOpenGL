@@ -9,10 +9,13 @@ void Renderer::prepare()
 }
 
 void Renderer::render(TexturedModel texturedModel) {
-	RawModel model = texturedModel.getModel();
-	glBindVertexArray(model.getVAO());
+	glBindVertexArray(texturedModel.getModel().getVAO());
 	glEnableVertexAttribArray(0);
-	glDrawElements(GL_TRIANGLES, model.getVertexCount(), GL_UNSIGNED_INT, 0);
+	glEnableVertexAttribArray(1);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texturedModel.getTexture().getTextureId());
+	glDrawElements(GL_TRIANGLES, texturedModel.getModel().getVertexCount(), GL_UNSIGNED_INT, 0);
 	glDisableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
 	glBindVertexArray(0);
 }

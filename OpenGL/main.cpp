@@ -26,19 +26,24 @@ int main()
 
 	#pragma region Data
 
-	float quad[] = {
+	std::vector<float> vertices = {
 		-0.5f, 0.5f, 0.0f,
 		-0.5f, -0.5f, 0.0f,
 		0.5f, -0.5f, 0.0f,
 		0.5f, 0.5f, 0.0f,
 	};
 
-	unsigned int index[] = {
-	 	0, 1, 3, 3, 1, 2
+	std::vector<float> textureCoords{
+		0, 0,
+		0, 1,
+		1, 1,
+		1, 0
 	};
 
-	std::vector<float> vertices(quad, quad + sizeof(quad) / sizeof(float));
-	std::vector<unsigned int> indices(index, index + sizeof(index) / sizeof(unsigned int));
+	std::vector<unsigned int> indices = {
+	 	0, 1, 3,
+		3, 1, 2
+	};
 
 	//float vertices[] = {
 	//	//x      y     z     r     g     b
@@ -178,7 +183,7 @@ int main()
 	Renderer renderer = Renderer();
 	StaticShader shader = StaticShader();
 
-	RawModel model = loader.loadToVAO(vertices, indices);
+	RawModel model = loader.loadToVAO(vertices, textureCoords, indices);
 	ModelTexture texture = ModelTexture(loader.loadTexture("res\\container.jpg"));
 	TexturedModel texturedModel = TexturedModel(model, texture);
 

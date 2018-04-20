@@ -130,8 +130,8 @@
     <ClCompile Include="StaticShader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\static.fs" />
-    <None Include="shaders\static.vs" />
+    <None Include="shaders\static.frg.s" />
+    <None Include="shaders\static.vrt.s" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

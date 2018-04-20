@@ -83,7 +83,6 @@ int ShaderProgram::loadShader(const char *filePath, GLenum shaderType) {
 	if (!success) {
 		glGetShaderInfoLog(shaderId, 512, NULL, infoLog);
 		std::cout << "ERROR::SHADER::TYPE(" << shaderType << ")COMPILATION_FAILED\n" << infoLog << std::endl;
-		exit(EXIT_FAILURE);
 	}
 
 	return shaderId;
