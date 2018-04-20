@@ -71,19 +71,19 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)Include\$(PlatformArchitecture)bit;$(SolutionDir)Include\noarch;$(IncludePath)</IncludePath>
+    <IncludePath>$(IncludePath);$(SolutionDir)Include\noarch;$(SolutionDir)Include\$(PlatformArchitecture)bit;$(SolutionDir)RenderEngine;%(AdditionalIncludeDirectories)</IncludePath>
     <LibraryPath>$(SolutionDir)Lib\dll\$(PlatformArchitecture)bit;$(SolutionDir)Lib\lib\$(PlatformArchitecture)bit;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)Include\$(PlatformArchitecture)bit;$(SolutionDir)Include\noarch;$(IncludePath)</IncludePath>
+    <IncludePath>$(IncludePath);$(SolutionDir)Include\noarch;$(SolutionDir)Include\$(PlatformArchitecture)bit;$(SolutionDir)RenderEngine;%(AdditionalIncludeDirectories)</IncludePath>
     <LibraryPath>$(SolutionDir)Lib\dll\$(PlatformArchitecture)bit;$(SolutionDir)Lib\lib\$(PlatformArchitecture)bit;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)Include\$(PlatformArchitecture)bit;$(SolutionDir)Include\noarch;$(IncludePath)</IncludePath>
+    <IncludePath>$(IncludePath);$(SolutionDir)Include\noarch;$(SolutionDir)Include\$(PlatformArchitecture)bit;$(SolutionDir)RenderEngine;%(AdditionalIncludeDirectories)</IncludePath>
     <LibraryPath>$(SolutionDir)Lib\dll\$(PlatformArchitecture)bit;$(SolutionDir)Lib\lib\$(PlatformArchitecture)bit;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)Include\$(PlatformArchitecture)bit;$(SolutionDir)Include\noarch;$(IncludePath)</IncludePath>
+    <IncludePath>$(IncludePath);$(SolutionDir)Include\noarch;$(SolutionDir)Include\$(PlatformArchitecture)bit;$(SolutionDir)RenderEngine;%(AdditionalIncludeDirectories)</IncludePath>
     <LibraryPath>$(SolutionDir)Lib\dll\$(PlatformArchitecture)bit;$(SolutionDir)Lib\lib\$(PlatformArchitecture)bit;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -91,7 +91,8 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\Yoni\Programming\GameDev\OpenGL\LearnOpenGL\RenderEngine;D:\Yoni\Programming\GameDev\utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -118,7 +119,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\Yoni\Programming\GameDev\OpenGL\LearnOpenGL\RenderEngine;D:\Yoni\Programming\GameDev\utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
