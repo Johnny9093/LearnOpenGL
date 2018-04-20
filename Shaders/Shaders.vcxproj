@@ -20,33 +20,32 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{62182CF0-C5DF-4C29-B287-263CCBCA1B29}</ProjectGuid>
-    <RootNamespace>OpenGL</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
-    <ProjectName>OpenGL</ProjectName>
+    <ProjectGuid>{89E1D990-0546-436C-B2ED-F021450854BB}</ProjectGuid>
+    <RootNamespace>Shaders</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -71,52 +70,30 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(IncludePath);$(SolutionDir)Include\noarch;$(SolutionDir)Include\$(PlatformArchitecture)bit;%(AdditionalIncludeDirectories)</IncludePath>
-    <LibraryPath>$(SolutionDir)Lib\dll\$(PlatformArchitecture)bit;$(SolutionDir)Lib\lib\$(PlatformArchitecture)bit;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)Include\$(PlatformArchitecture)bit;$(SolutionDir)Include\noarch;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(IncludePath);$(SolutionDir)Include\noarch;$(SolutionDir)Include\$(PlatformArchitecture)bit;%(AdditionalIncludeDirectories)</IncludePath>
-    <LibraryPath>$(SolutionDir)Lib\dll\$(PlatformArchitecture)bit;$(SolutionDir)Lib\lib\$(PlatformArchitecture)bit;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)Include\$(PlatformArchitecture)bit;$(SolutionDir)Include\noarch;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(IncludePath);$(SolutionDir)Include\noarch;$(SolutionDir)Include\$(PlatformArchitecture)bit;%(AdditionalIncludeDirectories)</IncludePath>
-    <LibraryPath>$(SolutionDir)Lib\dll\$(PlatformArchitecture)bit;$(SolutionDir)Lib\lib\$(PlatformArchitecture)bit;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)Include\$(PlatformArchitecture)bit;$(SolutionDir)Include\noarch;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(IncludePath);$(SolutionDir)Include\noarch;$(SolutionDir)Include\$(PlatformArchitecture)bit;%(AdditionalIncludeDirectories)</IncludePath>
-    <LibraryPath>$(SolutionDir)Lib\dll\$(PlatformArchitecture)bit;$(SolutionDir)Lib\lib\$(PlatformArchitecture)bit;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)Include\$(PlatformArchitecture)bit;$(SolutionDir)Include\noarch;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Shaders\;$(SolutionDir)RenderEngine\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-    <Link>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <SubSystem>
-      </SubSystem>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-    </Link>
-    <PostBuildEvent>
-      <Command>xcopy $(SolutionDir)Shaders\shaders $(SolutionDir)Debug</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Shaders\;$(SolutionDir)RenderEngine\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
-    <Link>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
-    <PostBuildEvent>
-      <Command>xcopy $(SolutionDir)Shaders\shaders $(SolutionDir)Debug</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -125,20 +102,11 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Shaders\;$(SolutionDir)RenderEngine\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <SubSystem>
-      </SubSystem>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
-    <PostBuildEvent>
-      <Command>xcopy $(SolutionDir)Shaders\shaders $(SolutionDir)Debug</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -147,33 +115,30 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Shaders\;$(SolutionDir)RenderEngine\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PostBuildEvent>
-      <Command>xcopy $(SolutionDir)Shaders\shaders $(SolutionDir)Debug</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="glad.c" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="stb_image.cpp" />
+    <ClInclude Include="ShaderProgram.h" />
+    <ClInclude Include="StaticShader.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\container.jpg" />
-    <Image Include="res\wall.jpg" />
+    <ClCompile Include="ShaderProgram.cpp" />
+    <ClCompile Include="StaticShader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RenderEngine\RenderEngine.vcxproj">
-      <Project>{f689f273-ef25-4768-8159-0a0a477328a3}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Shaders\Shaders.vcxproj">
-      <Project>{89e1d990-0546-436c-b2ed-f021450854bb}</Project>
-    </ProjectReference>
+    <None Include="shaders\static.fs" />
+    <None Include="static.fs.old">
+      <FileType>Text</FileType>
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="shaders\static.vs" />
+    <None Include="static.vs.old">
+      <FileType>Text</FileType>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

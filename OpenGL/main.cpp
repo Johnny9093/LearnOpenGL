@@ -1,8 +1,8 @@
-#include "Shader.h"
-#include "DisplayManager.h"
+#include "StaticShader.h"
 #include "Loader.h"
 #include "RawModel.h"
 #include "Renderer.h"
+#include "DisplayManager.h"
 
 #include <GLFW/glfw3.h>
 #include "stb_image.h"
@@ -21,12 +21,6 @@ int main()
 	if (!DisplayManager::createDisplay()) {
 		return -1;
 	}
-
-	#pragma endregion
-
-	#pragma region Shaders
-
-	Shader shader("vertex.s", "fragment.s");
 
 	#pragma endregion
 
@@ -182,13 +176,15 @@ int main()
 
 	Loader loader = Loader();
 	Renderer renderer = Renderer();
+	StaticShader shader = StaticShader();
 
 	RawModel model = loader.loadToVAO(vertices, indices);
 
 	#pragma region Render Loop
 
 	// Start using the shader program with our defined shaders
-	shader.use();
+
+
 	//shader.setInt("texture2", 1);
 
 	// Bind textures
@@ -201,7 +197,10 @@ int main()
 	while (!DisplayManager::windowShouldClose())
 	{
 		renderer.prepare();
+		shader.start();
 		renderer.render(model);
+		shader.stop();
+
 		DisplayManager::updateDisplay();
 
 		// Check for specific input
@@ -235,6 +234,8 @@ int main()
 
 	#pragma region Cleanup
 
+	shader.cleanUp();
+	loader.cleanUp();
 	DisplayManager::closeDisplay();
 	return 0;
 

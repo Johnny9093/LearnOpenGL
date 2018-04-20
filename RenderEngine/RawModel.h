@@ -3,13 +3,13 @@
 class RawModel
 {
 public:
-	RawModel(int vaoID, int vertexCount);
+	RawModel(int vaoId, int vertexCount);
 
 	int getVAO();
 	int getVertexCount();
 
 private:
-	int vaoID;
+	int vaoId;
 	int vertexCount;
 };
 

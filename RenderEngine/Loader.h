@@ -10,8 +10,8 @@ public:
 	void cleanUp();
 
 private:
-	std::vector<unsigned int> vaoIDs;
-	std::vector<unsigned int> vboIDs;
+	std::vector<unsigned int> vaoIds;
+	std::vector<unsigned int> vboIds;
 
 	int createVAO();
 	void storeDataInAttributeList(int attributeNumber, std::vector<float> vertices);
