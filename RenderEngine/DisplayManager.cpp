@@ -21,14 +21,6 @@ GLFWwindow *DisplayManager::getWindow() {
 	return window;
 }
 
-float DisplayManager::getWidth() {
-	return (float)WIDTH;
-}
-
-float DisplayManager::getHeight() {
-	return (float)HEIGHT;
-}
-
 float DisplayManager::getAspectRatio() {
 	return (WIDTH / (float)HEIGHT);
 }

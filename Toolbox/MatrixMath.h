@@ -19,28 +19,24 @@ public:
 		return transformation;
 	};
 
-	static glm::mat4 createProjectionMatrix(float width, float height, float fieldOfView, float nearPlane, float farPlane) {
-		glm::mat4 projectionMatrix = glm::perspectiveFov(fieldOfView, width, height, nearPlane, farPlane);
-
-		/*float aspectRatio = (width / (float)height);
-		float y_scale = (float)((1.0f / glm::tan(glm::radians(fieldOfView / 2.0f))) * aspectRatio);
-		float x_scale = y_scale / aspectRatio;
-		float frustum_length = farPlane - nearPlane;
-
-		glm::mat4 projectionMatrix2 = glm::mat4(xB_scale, 0, 0, 0, 0, y_scale, 0, 0, 0, 0, -((farPlane + nearPlane) / frustum_length), -1, 0, 0, -((2 * nearPlane * farPlane) / frustum_length), 0);*/
-
-		return projectionMatrix;
-	}
 
 	static glm::mat4 createViewMatrix(Camera camera) {
 		glm::mat4 viewMatrix = glm::mat4();
 
-		viewMatrix = glm::rotate(viewMatrix, glm::radians(camera.getPitch()), glm::vec3(1, 0, 0));
-		viewMatrix = glm::rotate(viewMatrix, glm::radians(camera.getYaw()), glm::vec3(0, 1, 0));
-		viewMatrix = glm::rotate(viewMatrix, glm::radians(camera.getRoll()), glm::vec3(0, 0, 1));
-		glm::vec3 position = camera.getPosition();
-		glm::vec3 negativePosition = -position;
-		viewMatrix = glm::translate(viewMatrix, negativePosition);
+		/*viewMatrix = glm::rotate(viewMatrix, glm::radians(camera.getDirection().x), glm::vec3(1, 0, 0));
+		viewMatrix = glm::rotate(viewMatrix, glm::radians(camera.getDirection().y), glm::vec3(0, 1, 0));
+		viewMatrix = glm::rotate(viewMatrix, glm::radians(camera.getDirection().z), glm::vec3(0, 0, 1));
+
+		glm::vec3 negativePosition = -camera.getPosition();
+		viewMatrix = glm::translate(viewMatrix, negativePosition);*/
+
+		viewMatrix = glm::lookAt(camera.getPosition(), camera.getPosition() + camera.getFront(), camera.getUp());
+
 		return viewMatrix;
+	}
+
+	static glm::mat4 createProjectionMatrix(float fieldOfView, float aspectRatio, float nearPlane, float farPlane) {
+		glm::mat4 projectionMatrix = glm::perspective(glm::radians(fieldOfView), aspectRatio, nearPlane, farPlane);
+		return projectionMatrix;
 	}
 };

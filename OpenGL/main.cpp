@@ -6,6 +6,9 @@
 
 #include <iostream>
 
+float deltaTime = 0.0f;	// Time between current frame and last frame
+float lastFrame = 0.0f; // Time of last frame
+
 void processInput(GLFWwindow *window, Entity *entity, Camera *camera);
 
 int main()
@@ -138,13 +141,18 @@ int main()
 	RawModel model = loader.loadToVAO(vertices, textureCoords, indices);
 	Texture texture = Texture(loader.loadTexture("res\\container.jpg"));
 	TexturedModel staticModel = TexturedModel(model, texture);
-	Entity entity = Entity(staticModel, 0, 0, -4, 0, 0, 0, 1, 1, 1);
+	Entity entity = Entity(staticModel, 0, 0, 0, 0, 0, 0, 1, 1, 1);
 	Camera camera = Camera();
 
 	#pragma region Render Loop
 
 	// Start render loop
 	while (!DisplayManager::windowShouldClose()) {
+		
+		float currentFrame = (float)glfwGetTime();
+		deltaTime = currentFrame - lastFrame;
+		lastFrame = currentFrame;
+
 		renderer.prepare();
 		shader.start();
 		shader.loadViewMatrix(camera);
@@ -171,81 +179,16 @@ int main()
 
 // Process keyboard input
 void processInput(GLFWwindow *window, Entity *entity, Camera *camera) {
-	/*float x = 0.0f;
-	float y = 0.0f;
-	float z = 0.0f;*/
 
-	float pitch = 0.0f;
-	float yaw = 0.0f;
-	float roll = 0.0f;
-
-	float c_x = 0.0f;
-	float c_y = 0.0f;
-	float c_z = 0.0f;
-
-	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
-		yaw += 0.5f;
-	}
-
-	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
-		yaw -= 0.5f;
-	}
-
-	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
-		pitch += 0.5f;
-	}
-
-	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
-		pitch -= 0.5f;
-	}
-
-	if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS) {
-		roll -= 0.05f;
-	}
-
-	if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS) {
-		roll += 0.05f;
-	}
-
-	// Camera
-
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-		c_x += 0.05f;
-	}
-
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-		c_x -= 0.05f;
-	}
-
-	/*if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-		c_y += 0.005f;
-	}
-
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-		c_y -= 0.005f;
-	}*/
-
-	/*if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {
-		c_z -= 0.005f;
-	}
-
-	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
-		c_z += 0.005f;
-	}*/
-
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-		c_z -= 0.05f;
-	}
-
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-		c_z += 0.05f;
-	}
-
-	/*entity->move(x, y, z);*/
-	camera->move(c_x, c_y, c_z);
-	camera->givePitch(pitch);
-	camera->giveYaw(yaw);
-	camera->giveRoll(roll);
+	float cameraSpeed = 2.5f * deltaTime;
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		camera->move(cameraSpeed * camera->getFront());
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		camera->move(-(cameraSpeed * camera->getFront()));
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		camera->move(-(glm::normalize(glm::cross(camera->getFront(), glm::vec3(0.0f, 1.0f, 0.0f))) * cameraSpeed));
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		camera->move(glm::normalize(glm::cross(camera->getFront(), glm::vec3(0.0f, 1.0f, 0.0f))) * cameraSpeed);
 
 	// Exit the application when the Escape key is pressed
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {

@@ -4,12 +4,12 @@
 
 #include <glad/glad.h>
 
-const float Renderer::FOV = 70;
+const float Renderer::FOV = 45;
 const float Renderer::NEAR_PLANE = 0.1f;
 const float Renderer::FAR_PLANE = 1000;
 
 Renderer::Renderer(StaticShader shader) {
-	projectionMatrix = MatrixMath::createProjectionMatrix(DisplayManager::getWidth(), DisplayManager::getHeight(), FOV, NEAR_PLANE, FAR_PLANE);
+	projectionMatrix = MatrixMath::createProjectionMatrix(FOV, DisplayManager::getAspectRatio(), NEAR_PLANE, FAR_PLANE);
 	shader.start();
 	shader.loadProjectionMatrix(projectionMatrix);
 	shader.stop();

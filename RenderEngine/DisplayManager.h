@@ -12,8 +12,6 @@ public:
 	static void closeDisplay();
 	static bool windowShouldClose();
 	static float getAspectRatio();
-	static float getWidth();
-	static float getHeight();
 
 private:
 	static GLFWwindow* window;
