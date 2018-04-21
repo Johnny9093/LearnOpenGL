@@ -4,21 +4,18 @@
 
 #include <glad/glad.h>
 
-const float Renderer::FOV = 45;
 const float Renderer::NEAR_PLANE = 0.1f;
 const float Renderer::FAR_PLANE = 1000;
 
-Renderer::Renderer(StaticShader shader) {
-	projectionMatrix = MatrixMath::createProjectionMatrix(FOV, DisplayManager::getAspectRatio(), NEAR_PLANE, FAR_PLANE);
-	shader.start();
-	shader.loadProjectionMatrix(projectionMatrix);
-	shader.stop();
-}
-
-void Renderer::prepare() {
+void Renderer::prepare(StaticShader shader, Camera camera) {
 	glEnable(GL_DEPTH_TEST);
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	projectionMatrix = MatrixMath::createProjectionMatrix(camera, DisplayManager::getAspectRatio(), NEAR_PLANE, FAR_PLANE);
+	shader.start();
+	shader.loadProjectionMatrix(projectionMatrix);
+	shader.stop();
 }
 
 void Renderer::render(Entity entity, StaticShader shader) {

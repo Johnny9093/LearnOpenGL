@@ -11,21 +11,19 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	glViewport(0, 0, width, height);
 }
 
-const int WIDTH = 800;
-const int HEIGHT = 600;
-const char* TITLE = "LearnOpenGL";
-
 GLFWwindow* DisplayManager::window;
+int DisplayManager::width;
+int DisplayManager::height;
 
 GLFWwindow *DisplayManager::getWindow() {
 	return window;
 }
 
 float DisplayManager::getAspectRatio() {
-	return (WIDTH / (float)HEIGHT);
+	return (width / (float)height);
 }
 
-bool DisplayManager::createDisplay()
+bool DisplayManager::createDisplay(int width, int height, const char *title, GLFWcursorposfun mouse_callback, GLFWscrollfun scroll_callback)
 {
 	// Initialize GLFW and tell it which OpenGL version we're using (3.3 Core)
 	// Core means we'll get access to a smaller subset of OpenGL features (without backwards-compatible features we no longer need)
@@ -35,7 +33,12 @@ bool DisplayManager::createDisplay()
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	// Create GLFW window
-	window = glfwCreateWindow(WIDTH, HEIGHT, TITLE, NULL, NULL);
+	DisplayManager::width = width;
+	DisplayManager::height = height;
+	window = glfwCreateWindow(width, height, title, NULL, NULL);
+
+	// Capture mouse
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	if (window == NULL)
 	{
@@ -47,8 +50,10 @@ bool DisplayManager::createDisplay()
 	// Make the context of our window the main context on the current thread
 	glfwMakeContextCurrent(window);
 
-	// Registering the window resize callback function
+	// Registering callbacks
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+	glfwSetCursorPosCallback(window, mouse_callback);
+	glfwSetScrollCallback(window, scroll_callback);
 
 	// Initialize GLAD with the OS-specific function to get function addresses and load all OpenGL function pointers
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))

@@ -19,24 +19,28 @@ public:
 		return transformation;
 	};
 
-
+	// Returns the view matrix calculated using Euler Angles and the LookAt Matrix
 	static glm::mat4 createViewMatrix(Camera camera) {
-		glm::mat4 viewMatrix = glm::mat4();
-
-		/*viewMatrix = glm::rotate(viewMatrix, glm::radians(camera.getDirection().x), glm::vec3(1, 0, 0));
-		viewMatrix = glm::rotate(viewMatrix, glm::radians(camera.getDirection().y), glm::vec3(0, 1, 0));
-		viewMatrix = glm::rotate(viewMatrix, glm::radians(camera.getDirection().z), glm::vec3(0, 0, 1));
-
-		glm::vec3 negativePosition = -camera.getPosition();
-		viewMatrix = glm::translate(viewMatrix, negativePosition);*/
-
-		viewMatrix = glm::lookAt(camera.getPosition(), camera.getPosition() + camera.getFront(), camera.getUp());
-
-		return viewMatrix;
+		return glm::lookAt(camera.Position, camera.Position + camera.Front, camera.Up);
 	}
 
-	static glm::mat4 createProjectionMatrix(float fieldOfView, float aspectRatio, float nearPlane, float farPlane) {
-		glm::mat4 projectionMatrix = glm::perspective(glm::radians(fieldOfView), aspectRatio, nearPlane, farPlane);
+	//static glm::mat4 createViewMatrix(Camera camera) {
+	//	glm::mat4 viewMatrix = glm::mat4();
+
+	//	/*viewMatrix = glm::rotate(viewMatrix, glm::radians(camera.getDirection().x), glm::vec3(1, 0, 0));
+	//	viewMatrix = glm::rotate(viewMatrix, glm::radians(camera.getDirection().y), glm::vec3(0, 1, 0));
+	//	viewMatrix = glm::rotate(viewMatrix, glm::radians(camera.getDirection().z), glm::vec3(0, 0, 1));
+
+	//	glm::vec3 negativePosition = -camera.getPosition();
+	//	viewMatrix = glm::translate(viewMatrix, negativePosition);*/
+
+	//	viewMatrix = glm::lookAt(camera.getPosition(), camera.getPosition() + camera.getFront(), camera.getUp());
+
+	//	return viewMatrix;
+	//}
+
+	static glm::mat4 createProjectionMatrix(Camera camera, float aspectRatio, float nearPlane, float farPlane) {
+		glm::mat4 projectionMatrix = glm::perspective(glm::radians(camera.Zoom), aspectRatio, nearPlane, farPlane);
 		return projectionMatrix;
 	}
 };
