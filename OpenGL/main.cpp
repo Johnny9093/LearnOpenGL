@@ -122,14 +122,17 @@ int main()
 	Renderer renderer = Renderer();
 
 	/*RawModel model = loader.loadToVAO(vertices, textureCoords, indices);*/
-	//RawModel model = OBJLoader::loadObjModel("stickfigure", loader);
-	//Texture texture = Texture(loader.loadTexture("res\\stickfigure.png"));
+	RawModel stickMesh = OBJLoader::loadObjModel("stickfigure", loader);
+	Texture stickTexture = Texture(loader.loadTexture("res\\wall.jpg"));
+	TexturedModel stickModel = TexturedModel(stickMesh, stickTexture);
+	Entity stick = Entity(stickModel, 3, 0, -40, 0, 0, 0, 1, 1, 1);
 
-	RawModel model = OBJLoader::loadObjModel("dragon", loader);
-	Texture texture = Texture(loader.loadTexture("res\\dragon.png"));
+	RawModel dragonMesh = OBJLoader::loadObjModel("dragon", loader);
+	Texture dragonTexture = Texture(loader.loadTexture("res\\dragon.png"));
+	TexturedModel dragonModel = TexturedModel(dragonMesh, dragonTexture);
+	Entity dragon = Entity(dragonModel, 0, 0, -50, 0, 0, 0, 1, 1, 1);
 
-	TexturedModel staticModel = TexturedModel(model, texture);
-	Entity entity = Entity(staticModel, 0, 0, 0, 0, 0, 0, 1, 1, 1);
+	Light light = Light(glm::vec3(0, 0, -20), glm::vec3(1, 0, 0));
 
 	#pragma endregion
 
@@ -144,8 +147,10 @@ int main()
 
 		renderer.prepare(shader, camera);
 		shader.start();
+		shader.loadLight(light);
 		shader.loadViewMatrix(camera);
-		renderer.render(entity, shader);
+		renderer.render(dragon, shader);
+		renderer.render(stick, shader);
 		shader.stop();
 
 		DisplayManager::updateDisplay();

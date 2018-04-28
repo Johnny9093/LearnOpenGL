@@ -140,7 +140,7 @@ RawModel OBJLoader::loadObjModel(const std::string filePath, Loader loader)
 		verticesf[vertexPointer++] = vertex.z;
 	}
 
-	return loader.loadToVAO(verticesf, texturesf, indices);
+	return loader.loadToVAO(verticesf, texturesf, normalsf, indices);
 }
 
 void OBJLoader::processVertex(unsigned int vin, unsigned int tin, unsigned int nin, std::vector<unsigned int> *indices,

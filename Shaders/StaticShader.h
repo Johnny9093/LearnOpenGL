@@ -2,6 +2,7 @@
 
 #include "ShaderProgram.h"
 #include "Camera.h"
+#include "Light.h"
 
 #include <glm\glm.hpp>
 
@@ -12,6 +13,7 @@ public:
 	void loadTransformationMatrix(glm::mat4 matrix);
 	void loadProjectionMatrix(glm::mat4 matrix);
 	void loadViewMatrix(Camera camera);
+	void loadLight(Light light);
 
 protected:
 	void bindAttributes();
@@ -24,4 +26,6 @@ private:
 	unsigned int transMat_location;
 	unsigned int projMat_location;
 	unsigned int viewMat_location;
+	unsigned int lightPosition_location;
+	unsigned int lightColor_location;
 };

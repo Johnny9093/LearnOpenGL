@@ -4,11 +4,12 @@
 #include <glad\glad.h>
 #include <iostream>
 
-RawModel Loader::loadToVAO(std::vector<float> vertices, std::vector<float> textureCoords, std::vector<unsigned int> indices) {
+RawModel Loader::loadToVAO(std::vector<float> vertices, std::vector<float> textureCoords, std::vector<float> normals, std::vector<unsigned int> indices) {
 	unsigned int vaoId = createVAO();
 	bindIndicesBuffer(indices);
 	storeDataInAttributeList(0, 3, vertices);
 	storeDataInAttributeList(1, 2, textureCoords);
+	storeDataInAttributeList(2, 3, normals);
 	unbindVAO();
 	return RawModel(vaoId, indices.size());
 }

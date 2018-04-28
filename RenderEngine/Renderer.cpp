@@ -26,6 +26,7 @@ void Renderer::render(Entity entity, StaticShader shader) {
 	glBindVertexArray(model.getVAO());
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(2);
 
 	glm::mat4 transformation = MatrixMath::createTransformationMatrix(entity.getPosition(), entity.getRotationX(), entity.getRotationY(), entity.getRotationZ(), entity.getScale());
 	shader.loadTransformationMatrix(transformation);
@@ -35,5 +36,6 @@ void Renderer::render(Entity entity, StaticShader shader) {
 	glDrawElements(GL_TRIANGLES, model.getVertexCount(), GL_UNSIGNED_INT, 0);
 	glDisableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(2);
 	glBindVertexArray(0);
 }
