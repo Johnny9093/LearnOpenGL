@@ -132,11 +132,13 @@
   <ItemGroup>
     <ClInclude Include="DisplayManager.h" />
     <ClInclude Include="Loader.h" />
+    <ClInclude Include="OBJLoader.h" />
     <ClInclude Include="Renderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DisplayManager.cpp" />
     <ClCompile Include="Loader.cpp" />
+    <ClCompile Include="OBJLoader.cpp" />
     <ClCompile Include="Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>

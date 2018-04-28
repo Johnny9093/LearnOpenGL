@@ -1,5 +1,6 @@
 #include "StaticShader.h"
 #include "Loader.h"
+#include "OBJLoader.h"
 #include "RawModel.h"
 #include "Renderer.h"
 #include "DisplayManager.h"
@@ -16,8 +17,8 @@ void processInput(GLFWwindow *window);
 float deltaTime = 0.0f;	// Time between current frame and last frame
 float lastFrame = 0.0f; // Time of last frame
 
-const int WIDTH = 800;
-const int HEIGHT = 600;
+const int WIDTH = 1280;
+const int HEIGHT = 720;
 const char* TITLE = "LearnOpenGL";
 
 // Camera
@@ -120,8 +121,13 @@ int main()
 	StaticShader shader = StaticShader();
 	Renderer renderer = Renderer();
 
-	RawModel model = loader.loadToVAO(vertices, textureCoords, indices);
-	Texture texture = Texture(loader.loadTexture("res\\container.jpg"));
+	/*RawModel model = loader.loadToVAO(vertices, textureCoords, indices);*/
+	//RawModel model = OBJLoader::loadObjModel("stickfigure", loader);
+	//Texture texture = Texture(loader.loadTexture("res\\stickfigure.png"));
+
+	RawModel model = OBJLoader::loadObjModel("dragon", loader);
+	Texture texture = Texture(loader.loadTexture("res\\dragon.png"));
+
 	TexturedModel staticModel = TexturedModel(model, texture);
 	Entity entity = Entity(staticModel, 0, 0, 0, 0, 0, 0, 1, 1, 1);
 
@@ -166,14 +172,20 @@ void processInput(GLFWwindow *window) {
 		glfwSetWindowShouldClose(window, true);
 	}
 
+	float velocityModifier = 1.0f;
+
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
+		velocityModifier = 1.75f;
+	}
+
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		camera.ProcessKeyboard(FORWARD, deltaTime);
+		camera.ProcessKeyboard(FORWARD, deltaTime, velocityModifier);
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		camera.ProcessKeyboard(BACKWARD, deltaTime);
+		camera.ProcessKeyboard(BACKWARD, deltaTime, velocityModifier);
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		camera.ProcessKeyboard(LEFT, deltaTime);
+		camera.ProcessKeyboard(LEFT, deltaTime, velocityModifier);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		camera.ProcessKeyboard(RIGHT, deltaTime);
+		camera.ProcessKeyboard(RIGHT, deltaTime, velocityModifier);
 }
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
