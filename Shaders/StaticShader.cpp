@@ -20,6 +20,8 @@ void StaticShader::getAllUniformLocations() {
 	viewMat_location = ShaderProgram::getUniformLocation("viewMatrix");
 	lightPosition_location = ShaderProgram::getUniformLocation("lightPosition");
 	lightColor_location = ShaderProgram::getUniformLocation("lightColor");
+	shineDamper_location = ShaderProgram::getUniformLocation("shineDamper");
+	reflectivity_location = ShaderProgram::getUniformLocation("reflectivity");
 }
 
 void StaticShader::loadTransformationMatrix(glm::mat4 matrix) {
@@ -37,4 +39,9 @@ void StaticShader::loadViewMatrix(Camera camera) {
 void StaticShader::loadLight(Light light) {
 	ShaderProgram::setVec3(lightPosition_location, light.getPosition());
 	ShaderProgram::setVec3(lightColor_location, light.getColor());
+}
+
+void StaticShader::loadSpecularLighting(float damper, float reflectivity) {
+	ShaderProgram::setFloat(shineDamper_location, damper);
+	ShaderProgram::setFloat(reflectivity_location, reflectivity);
 }

@@ -14,6 +14,7 @@ public:
 	void loadProjectionMatrix(glm::mat4 matrix);
 	void loadViewMatrix(Camera camera);
 	void loadLight(Light light);
+	void loadSpecularLighting(float damper, float reflectivity);
 
 protected:
 	void bindAttributes();
@@ -28,4 +29,6 @@ private:
 	unsigned int viewMat_location;
 	unsigned int lightPosition_location;
 	unsigned int lightColor_location;
+	unsigned int shineDamper_location;
+	unsigned int reflectivity_location;
 };

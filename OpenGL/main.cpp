@@ -17,8 +17,8 @@ void processInput(GLFWwindow *window);
 float deltaTime = 0.0f;	// Time between current frame and last frame
 float lastFrame = 0.0f; // Time of last frame
 
-const int WIDTH = 1280;
-const int HEIGHT = 720;
+const int WIDTH = 800;
+const int HEIGHT = 600;
 const char* TITLE = "LearnOpenGL";
 
 // Camera
@@ -29,93 +29,9 @@ bool firstMouse = true;
 
 int main()
 {
-	#pragma region GLFW Window
-
 	if (!DisplayManager::createDisplay(WIDTH, HEIGHT, TITLE, mouse_callback, scroll_callback)) {
 		return -1;
 	}
-
-	#pragma endregion
-
-	#pragma region Data
-
-	std::vector<float> vertices = {
-		-0.5f,0.5f,-0.5f,
-		-0.5f,-0.5f,-0.5f,
-		0.5f,-0.5f,-0.5f,
-		0.5f,0.5f,-0.5f,
-
-		-0.5f,0.5f,0.5f,
-		-0.5f,-0.5f,0.5f,
-		0.5f,-0.5f,0.5f,
-		0.5f,0.5f,0.5f,
-
-		0.5f,0.5f,-0.5f,
-		0.5f,-0.5f,-0.5f,
-		0.5f,-0.5f,0.5f,
-		0.5f,0.5f,0.5f,
-
-		-0.5f,0.5f,-0.5f,
-		-0.5f,-0.5f,-0.5f,
-		-0.5f,-0.5f,0.5f,
-		-0.5f,0.5f,0.5f,
-
-		-0.5f,0.5f,0.5f,
-		-0.5f,0.5f,-0.5f,
-		0.5f,0.5f,-0.5f,
-		0.5f,0.5f,0.5f,
-
-		-0.5f,-0.5f,0.5f,
-		-0.5f,-0.5f,-0.5f,
-		0.5f,-0.5f,-0.5f,
-		0.5f,-0.5f,0.5f
-	};
-
-	std::vector<float> textureCoords = {
-		0,0,
-		0,1,
-		1,1,
-		1,0,
-		0,0,
-		0,1,
-		1,1,
-		1,0,
-		0,0,
-		0,1,
-		1,1,
-		1,0,
-		0,0,
-		0,1,
-		1,1,
-		1,0,
-		0,0,
-		0,1,
-		1,1,
-		1,0,
-		0,0,
-		0,1,
-		1,1,
-		1,0
-	};
-
-	std::vector<unsigned int> indices = {
-		0,1,3,
-		3,1,2,
-		4,5,7,
-		7,5,6,
-		8,9,11,
-		11,9,10,
-		12,13,15,
-		15,13,14,
-		16,17,19,
-		19,17,18,
-		20,21,23,
-		23,21,22
-	};
-
-	#pragma endregion
-
-	#pragma region Initialization
 
 	Loader loader = Loader();
 	StaticShader shader = StaticShader();
@@ -124,19 +40,21 @@ int main()
 	/*RawModel model = loader.loadToVAO(vertices, textureCoords, indices);*/
 	RawModel stickMesh = OBJLoader::loadObjModel("stickfigure", loader);
 	Texture stickTexture = Texture(loader.loadTexture("res\\wall.jpg"));
+	stickTexture.setReflectivity(0.3f);
+	stickTexture.setShineDamper(10);
+
 	TexturedModel stickModel = TexturedModel(stickMesh, stickTexture);
-	Entity stick = Entity(stickModel, 3, 0, -40, 0, 0, 0, 1, 1, 1);
+	Entity stick = Entity(stickModel, 3, 0, -5, 0, 0, 0, 1, 1, 1);
 
 	RawModel dragonMesh = OBJLoader::loadObjModel("dragon", loader);
 	Texture dragonTexture = Texture(loader.loadTexture("res\\dragon.png"));
+	dragonTexture.setReflectivity(2.0f);
+	dragonTexture.setShineDamper(30);
+
 	TexturedModel dragonModel = TexturedModel(dragonMesh, dragonTexture);
-	Entity dragon = Entity(dragonModel, 0, 0, -50, 0, 0, 0, 1, 1, 1);
+	Entity dragon = Entity(dragonModel, 0, 0, -15, 0, 0, 0, 1, 1, 1);
 
-	Light light = Light(glm::vec3(0, 0, -20), glm::vec3(1, 0, 0));
-
-	#pragma endregion
-
-	#pragma region Render Loop
+	Light light = Light(glm::vec3(0, 0, 0), glm::vec3(1, 1, 1));
 
 	// Start render loop
 	while (!DisplayManager::windowShouldClose()) {
@@ -153,20 +71,18 @@ int main()
 		renderer.render(stick, shader);
 		shader.stop();
 
+		dragon.rotate(0, 0.15f, 0);
+		stick.rotate(0, 0.05f, 0);
+
 		DisplayManager::updateDisplay();
 		processInput(DisplayManager::getWindow());
 	}
 
-	#pragma endregion
-
-	#pragma region Cleanup
-
+	// Cleanup
 	shader.cleanUp();
 	loader.cleanUp();
 	DisplayManager::closeDisplay();
 	return 0;
-
-	#pragma endregion
 }
 
 // Process keyboard input

@@ -7,6 +7,8 @@
 class Renderer
 {
 public:
+	Renderer::Renderer();
+
 	void prepare(StaticShader shader, Camera camera);
 	void render(Entity entity, StaticShader shader);
 
