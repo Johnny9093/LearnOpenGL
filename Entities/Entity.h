@@ -12,7 +12,7 @@ public:
 	void rotate(float rx, float ry, float rz);
 	void scale(float sx, float sy, float sz);
 
-	TexturedModel getModel();
+	TexturedModel getModel() const;
 	glm::vec3 getPosition();
 	float getRotationX();
 	float getRotationY();

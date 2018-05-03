@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -132,12 +132,14 @@
   <ItemGroup>
     <ClInclude Include="DisplayManager.h" />
     <ClInclude Include="Loader.h" />
+    <ClInclude Include="MasterRenderer.h" />
     <ClInclude Include="OBJLoader.h" />
     <ClInclude Include="Renderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DisplayManager.cpp" />
     <ClCompile Include="Loader.cpp" />
+    <ClCompile Include="MasterRenderer.cpp" />
     <ClCompile Include="OBJLoader.cpp" />
     <ClCompile Include="Renderer.cpp" />
   </ItemGroup>

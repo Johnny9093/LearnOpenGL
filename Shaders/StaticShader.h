@@ -15,6 +15,7 @@ public:
 	void loadViewMatrix(Camera camera);
 	void loadLight(Light light);
 	void loadSpecularLighting(float damper, float reflectivity);
+	void loadAmbientLighting(float ambientStrength);
 
 protected:
 	void bindAttributes();
@@ -31,4 +32,5 @@ private:
 	unsigned int lightColor_location;
 	unsigned int shineDamper_location;
 	unsigned int reflectivity_location;
+	unsigned int ambientStrength_location;
 };

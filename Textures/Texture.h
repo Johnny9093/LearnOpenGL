@@ -5,7 +5,7 @@ class Texture
 public:
 	Texture(unsigned int id);
 
-	unsigned int getTextureId();
+	unsigned int getTextureId() const;
 
 	float getShineDamper();
 	void setShineDamper(float shineDamper);

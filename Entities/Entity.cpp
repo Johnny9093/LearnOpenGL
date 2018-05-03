@@ -36,7 +36,7 @@ void Entity::scale(float sx, float sy, float sz) {
 	v_scale.z *= sz;
 }
 
-TexturedModel Entity::getModel() {
+TexturedModel Entity::getModel() const {
 	return model;
 }
 

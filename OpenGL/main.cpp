@@ -1,8 +1,7 @@
-#include "StaticShader.h"
+#include "MasterRenderer.h"
 #include "Loader.h"
 #include "OBJLoader.h"
 #include "RawModel.h"
-#include "Renderer.h"
 #include "DisplayManager.h"
 #include "Camera.h"
 
@@ -33,28 +32,29 @@ int main()
 		return -1;
 	}
 
+	MasterRenderer renderer = MasterRenderer();
 	Loader loader = Loader();
-	StaticShader shader = StaticShader();
-	Renderer renderer = Renderer();
 
-	/*RawModel model = loader.loadToVAO(vertices, textureCoords, indices);*/
 	RawModel stickMesh = OBJLoader::loadObjModel("stickfigure", loader);
 	Texture stickTexture = Texture(loader.loadTexture("res\\wall.jpg"));
-	stickTexture.setReflectivity(0.3f);
-	stickTexture.setShineDamper(10);
+	stickTexture.setReflectivity(1.0f);
+	stickTexture.setShineDamper(100);
 
 	TexturedModel stickModel = TexturedModel(stickMesh, stickTexture);
 	Entity stick = Entity(stickModel, 3, 0, -5, 0, 0, 0, 1, 1, 1);
 
 	RawModel dragonMesh = OBJLoader::loadObjModel("dragon", loader);
 	Texture dragonTexture = Texture(loader.loadTexture("res\\dragon.png"));
-	dragonTexture.setReflectivity(2.0f);
+	dragonTexture.setReflectivity(1.0f);
 	dragonTexture.setShineDamper(30);
 
 	TexturedModel dragonModel = TexturedModel(dragonMesh, dragonTexture);
 	Entity dragon = Entity(dragonModel, 0, 0, -15, 0, 0, 0, 1, 1, 1);
 
 	Light light = Light(glm::vec3(0, 0, 0), glm::vec3(1, 1, 1));
+
+	renderer.addEntity(stick);
+	renderer.addEntity(dragon);
 
 	// Start render loop
 	while (!DisplayManager::windowShouldClose()) {
@@ -63,23 +63,26 @@ int main()
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 
-		renderer.prepare(shader, camera);
+		renderer.render(light, camera);
+
+		/*renderer.prepare(shader, camera);
 		shader.start();
 		shader.loadLight(light);
+		shader.loadAmbientLighting(0.1f);
 		shader.loadViewMatrix(camera);
 		renderer.render(dragon, shader);
 		renderer.render(stick, shader);
-		shader.stop();
+		shader.stop();*/
 
-		dragon.rotate(0, 0.15f, 0);
-		stick.rotate(0, 0.05f, 0);
+		//dragon.rotate(0, 0.15f, 0);
+		//stick.rotate(0, 0.1f, 0);
 
 		DisplayManager::updateDisplay();
 		processInput(DisplayManager::getWindow());
 	}
 
 	// Cleanup
-	shader.cleanUp();
+	renderer.cleanUp();
 	loader.cleanUp();
 	DisplayManager::closeDisplay();
 	return 0;

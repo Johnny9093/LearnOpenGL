@@ -11,25 +11,32 @@ uniform sampler2D aTexture;
 uniform vec3 lightColor;
 uniform float shineDamper;
 uniform float reflectivity;
+uniform float ambientStrength;
 
 void main()
 {
-   vec3 unitNormal = normalize(surfaceNormal);
-   vec3 unitToLight = normalize(toLight);
+	vec3 unitNormal = normalize(surfaceNormal);
+	vec3 unitToLight = normalize(toLight);
+	vec3 unitToCamera = normalize(toCamera);
 
-   float dotProduct = dot(unitNormal, unitToLight);
-   float brightness = max(dotProduct, 0.2);
-   vec3 diffuse = brightness * lightColor;
+	// ambient lighting
+	vec3 ambient = ambientStrength * lightColor;
 
-   vec3 unitToCamera = normalize(toCamera);
-   vec3 lightDirection = -unitToLight;
-   vec3 reflectedLightDirection = reflect(lightDirection, unitNormal);
+	// diffuse lighting
+	float similarity = dot(unitNormal, unitToLight);
+	float brightness = max(similarity, 0);
+	vec3 diffuse = brightness * lightColor;
 
-   float specularFactor = dot(reflectedLightDirection, unitToCamera);
-   specularFactor = max(specularFactor, 0.0);
-
-   float dampedFactor = pow(specularFactor, shineDamper);
-   vec3 specularLighting = dampedFactor * reflectivity * lightColor;
-
-   color = vec4(diffuse, 1.0) * texture(aTexture, texCoord) + vec4(specularLighting, 1.0);
+	// specular lighting
+	vec3 lightDirection = -unitToLight;
+	vec3 reflectedLightDirection = reflect(lightDirection, unitNormal);
+	float specularFactor = dot(reflectedLightDirection, unitToCamera);
+	specularFactor = max(specularFactor, 0.0);
+	float dampedFactor = pow(specularFactor, shineDamper);
+	vec3 specular = dampedFactor * reflectivity * lightColor;
+	
+	// color = vec4(1.0, 1.0, 1.0, 1.0);
+	// color = texture(aTexture, texCoord);
+	// color = vec4(diffuse, 1.0) * texture(aTexture, texCoord) + vec4(specular, 1.0);
+	color = vec4(ambient + diffuse, 1.0) * texture(aTexture, texCoord) + vec4(specular, 1.0);
 }

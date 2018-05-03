@@ -4,10 +4,10 @@ TexturedModel::TexturedModel(const RawModel rawModel, const Texture modelTexture
 	model(rawModel),
 	texture(modelTexture) { }
 
-RawModel TexturedModel::getRawModel() {
+RawModel TexturedModel::getRawModel() const {
 	return model;
 }
 
-Texture TexturedModel::getTexture() {
+Texture TexturedModel::getTexture() const {
 	return texture;
 }

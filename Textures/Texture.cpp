@@ -4,7 +4,7 @@ Texture::Texture(unsigned int id) {
 	textureId = id;
 }
 
-unsigned int Texture::getTextureId() {
+unsigned int Texture::getTextureId() const {
 	return textureId;
 }
 

@@ -22,6 +22,7 @@ void StaticShader::getAllUniformLocations() {
 	lightColor_location = ShaderProgram::getUniformLocation("lightColor");
 	shineDamper_location = ShaderProgram::getUniformLocation("shineDamper");
 	reflectivity_location = ShaderProgram::getUniformLocation("reflectivity");
+	ambientStrength_location = ShaderProgram::getUniformLocation("ambientStrength");
 }
 
 void StaticShader::loadTransformationMatrix(glm::mat4 matrix) {
@@ -44,4 +45,8 @@ void StaticShader::loadLight(Light light) {
 void StaticShader::loadSpecularLighting(float damper, float reflectivity) {
 	ShaderProgram::setFloat(shineDamper_location, damper);
 	ShaderProgram::setFloat(reflectivity_location, reflectivity);
+}
+
+void StaticShader::loadAmbientLighting(float ambientStrength) {
+	ShaderProgram::setFloat(ambientStrength_location, ambientStrength);
 }
