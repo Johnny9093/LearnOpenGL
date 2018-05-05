@@ -5,26 +5,26 @@
 
 class Entity {
 public:
-	Entity(TexturedModel model, glm::vec3 position, float rx, float ry, float rz, glm::vec3 scale);
-	Entity(TexturedModel model, float px, float py, float pz, float rx, float ry, float rz, float sx, float sy, float sz);
+	Entity(const TexturedModel model, const glm::vec3 position, const float rx, const float ry, const float rz, const glm::vec3 scale);
+	Entity(const TexturedModel model, const float px, const float py, const float pz, const float rx, const float ry, const float rz, const float sx, const float sy, const float sz);
 
-	void move(float dx, float dy, float dz);
-	void rotate(float rx, float ry, float rz);
-	void scale(float sx, float sy, float sz);
+	void move(const float dx, const float dy, const float dz);
+	void rotate(const float rx, const float ry, const float rz);
+	void scale(const float sx, const float sy, const float sz);
 
 	TexturedModel getModel() const;
-	glm::vec3 getPosition();
-	float getRotationX();
-	float getRotationY();
-	float getRotationZ();
-	glm::vec3 getScale();
+	glm::vec3 getPosition() const;
+	float getRotationX() const;
+	float getRotationY() const;
+	float getRotationZ() const;
+	glm::vec3 getScale() const;
 
-	void setModel(TexturedModel model);
-	void setPosition(glm::vec3 position);
-	void setRotationX(float rotationX);
-	void setRotationY(float rotationY);
-	void setRotationZ(float rotationZ);
-	void setScale(glm::vec3 scale);
+	void setModel(const TexturedModel model);
+	void setPosition(const glm::vec3 position);
+	void setRotationX(const float rotationX);
+	void setRotationY(const float rotationY);
+	void setRotationZ(const float rotationZ);
+	void setScale(const glm::vec3 scale);
 
 private:
 	TexturedModel model;

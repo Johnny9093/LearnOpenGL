@@ -8,18 +8,18 @@ unsigned int Texture::getTextureId() const {
 	return textureId;
 }
 
-float Texture::getShineDamper() {
+const float Texture::getShineDamper() const {
 	return shineDamper;
 }
 
-void Texture::setShineDamper(float shineDamper) {
+const void Texture::setShineDamper(const float shineDamper) {
 	Texture::shineDamper = shineDamper;
 }
 
-float Texture::getReflectivity() {
+const float Texture::getReflectivity() const {
 	return reflectivity;
 }
 
-void Texture::setReflectivity(float reflectivity) {
+const void Texture::setReflectivity(const float reflectivity) {
 	Texture::reflectivity = reflectivity;
 }

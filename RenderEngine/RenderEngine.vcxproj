@@ -90,7 +90,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Entities\;$(SolutionDir)Models\;$(SolutionDir)Textures\;$(SolutionDir)Toolbox\;$(SolutionDir)Shaders\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Entities\;$(SolutionDir)Models\;$(SolutionDir)Textures\;$(SolutionDir)Toolbox\;$(SolutionDir)Shaders\;$(SolutionDir)Terrains\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -98,7 +98,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Entities\;$(SolutionDir)Models\;$(SolutionDir)Textures\;$(SolutionDir)Toolbox\;$(SolutionDir)Shaders\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Entities\;$(SolutionDir)Models\;$(SolutionDir)Textures\;$(SolutionDir)Toolbox\;$(SolutionDir)Shaders\;$(SolutionDir)Terrains\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -108,7 +108,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Entities\;$(SolutionDir)Models\;$(SolutionDir)Textures\;$(SolutionDir)Toolbox\;$(SolutionDir)Shaders\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Entities\;$(SolutionDir)Models\;$(SolutionDir)Textures\;$(SolutionDir)Toolbox\;$(SolutionDir)Shaders\;$(SolutionDir)Terrains\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -122,7 +122,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Entities\;$(SolutionDir)Models\;$(SolutionDir)Textures\;$(SolutionDir)Toolbox\;$(SolutionDir)Shaders\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Entities\;$(SolutionDir)Models\;$(SolutionDir)Textures\;$(SolutionDir)Toolbox\;$(SolutionDir)Shaders\;$(SolutionDir)Terrains\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -134,14 +134,16 @@
     <ClInclude Include="Loader.h" />
     <ClInclude Include="MasterRenderer.h" />
     <ClInclude Include="OBJLoader.h" />
-    <ClInclude Include="Renderer.h" />
+    <ClInclude Include="EntityRenderer.h" />
+    <ClInclude Include="TerrainRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DisplayManager.cpp" />
     <ClCompile Include="Loader.cpp" />
     <ClCompile Include="MasterRenderer.cpp" />
     <ClCompile Include="OBJLoader.cpp" />
-    <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="EntityRenderer.cpp" />
+    <ClCompile Include="TerrainRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Entities\Entities.vcxproj">

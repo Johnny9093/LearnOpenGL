@@ -1,8 +1,10 @@
 #pragma once
 
 #include <unordered_map>
-#include "Renderer.h"
+#include "EntityRenderer.h"
 #include "StaticShader.h"
+#include "TerrainRenderer.h"
+#include "TerrainShader.h"
 #include "TexturedModel.h"
 #include "Entity.h"
 #include "Light.h"
@@ -11,16 +13,27 @@
 class MasterRenderer
 {
 public:
-	MasterRenderer();
+	MasterRenderer(const Camera *camera);
 
-	void render(Light sun, Camera camera);
-	void addEntity(Entity entity);
+	void render(const Light *sun, const Camera *camera);
+	void addEntity(const Entity entity);
+	void addTerrain(const Terrain *terrain);
 	void cleanUp();
 
 private:
-	Renderer renderer;
-	StaticShader shader;
+	static const float NEAR_PLANE;
+	static const float FAR_PLANE;
+
+	EntityRenderer entityRenderer;
+	StaticShader entityShader;
+
+	TerrainRenderer terrainRenderer;
+	TerrainShader terrainShader;
 
 	std::unordered_map<TexturedModel, std::vector<Entity>, TexturedModelHasher, TexturedModelComparator> entities;
-};
+	std::vector<const Terrain*> terrains;
 
+	glm::mat4 projectionMatrix;
+
+	void prepare() const;
+};

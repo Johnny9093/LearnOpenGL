@@ -7,11 +7,11 @@ public:
 
 	unsigned int getTextureId() const;
 
-	float getShineDamper();
-	void setShineDamper(float shineDamper);
+	const float getShineDamper() const;
+	const void setShineDamper(const float shineDamper);
 
-	float getReflectivity();
-	void setReflectivity(float reflectivity);
+	const float getReflectivity() const;
+	const void setReflectivity(const float reflectivity);
 
 private:
 	unsigned int textureId;

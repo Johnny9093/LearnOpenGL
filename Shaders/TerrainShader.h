@@ -6,10 +6,10 @@
 
 #include <glm\glm.hpp>
 
-class StaticShader : public ShaderProgram
+class TerrainShader : public ShaderProgram
 {
 public:
-	StaticShader();
+	TerrainShader();
 	void loadTransformationMatrix(glm::mat4 matrix) const;
 	void loadProjectionMatrix(glm::mat4 matrix) const;
 	void loadViewMatrix(const Camera *camera) const;

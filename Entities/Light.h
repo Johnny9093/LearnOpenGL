@@ -5,16 +5,15 @@
 class Light
 {
 public:
-	Light(glm::vec3 position, glm::vec3 color);
+	Light(const glm::vec3 position, const glm::vec3 color);
 
-	glm::vec3 getPosition();
-	void setPosition(glm::vec3 position);
+	glm::vec3 getPosition() const;
+	void setPosition(const glm::vec3 position);
 
-	glm::vec3 getColor();
-	void setColor(glm::vec3 color);
+	glm::vec3 getColor() const;
+	void setColor(const glm::vec3 color);
 
 private:
 	glm::vec3 position;
 	glm::vec3 color;
 };
-

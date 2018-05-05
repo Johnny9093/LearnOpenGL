@@ -32,7 +32,7 @@ int main()
 		return -1;
 	}
 
-	MasterRenderer renderer = MasterRenderer();
+	MasterRenderer renderer = MasterRenderer(&camera);
 	Loader loader = Loader();
 
 	RawModel stickMesh = OBJLoader::loadObjModel("stickfigure", loader);
@@ -43,18 +43,22 @@ int main()
 	TexturedModel stickModel = TexturedModel(stickMesh, stickTexture);
 	Entity stick = Entity(stickModel, 3, 0, -5, 0, 0, 0, 1, 1, 1);
 
-	RawModel dragonMesh = OBJLoader::loadObjModel("dragon", loader);
+	/*RawModel dragonMesh = OBJLoader::loadObjModel("dragon", loader);
 	Texture dragonTexture = Texture(loader.loadTexture("res\\dragon.png"));
 	dragonTexture.setReflectivity(1.0f);
-	dragonTexture.setShineDamper(30);
+	dragonTexture.setShineDamper(200);
 
 	TexturedModel dragonModel = TexturedModel(dragonMesh, dragonTexture);
-	Entity dragon = Entity(dragonModel, 0, 0, -15, 0, 0, 0, 1, 1, 1);
+	Entity dragon = Entity(dragonModel, 0, 0, -15, 0, 0, 0, 1, 1, 1);*/
 
-	Light light = Light(glm::vec3(0, 0, 0), glm::vec3(1, 1, 1));
+	Light light = Light(glm::vec3(800, 200, 400), glm::vec3(1, 1, 1));
 
-	renderer.addEntity(stick);
-	renderer.addEntity(dragon);
+	Texture terrainTexture = Texture(loader.loadTexture("res\\grass.png"));
+	terrainTexture.setReflectivity(0);
+	terrainTexture.setShineDamper(0.1);
+
+	Terrain terrain1 = Terrain(0, 0, &loader, terrainTexture);
+	Terrain terrain2 = Terrain(1, 0, &loader, terrainTexture);
 
 	// Start render loop
 	while (!DisplayManager::windowShouldClose()) {
@@ -63,16 +67,12 @@ int main()
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 
-		renderer.render(light, camera);
+		renderer.addEntity(stick);
+		//renderer.addEntity(dragon);
+		renderer.addTerrain(&terrain1);
+		renderer.addTerrain(&terrain2);
 
-		/*renderer.prepare(shader, camera);
-		shader.start();
-		shader.loadLight(light);
-		shader.loadAmbientLighting(0.1f);
-		shader.loadViewMatrix(camera);
-		renderer.render(dragon, shader);
-		renderer.render(stick, shader);
-		shader.stop();*/
+		renderer.render(&light, &camera);
 
 		//dragon.rotate(0, 0.15f, 0);
 		//stick.rotate(0, 0.1f, 0);
@@ -99,7 +99,7 @@ void processInput(GLFWwindow *window) {
 	float velocityModifier = 1.0f;
 
 	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-		velocityModifier = 1.75f;
+		velocityModifier = 100.0f;
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)

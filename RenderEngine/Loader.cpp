@@ -50,8 +50,7 @@ unsigned int Loader::loadTexture(const char *texturePath) {
 	return texture;
 }
 
-unsigned int Loader::createVAO()
-{
+unsigned int Loader::createVAO() {
 	unsigned int VAO;
 
 	// Generate VAO and store it's ID
@@ -64,8 +63,7 @@ unsigned int Loader::createVAO()
 	return VAO;
 }
 
-void Loader::storeDataInAttributeList(int attributeNumber, int coordinateSize, std::vector<float> vertices)
-{
+void Loader::storeDataInAttributeList(int attributeNumber, int coordinateSize, std::vector<float> vertices) {
 	unsigned int VBO;
 	glGenBuffers(1, &VBO);
 
@@ -92,13 +90,11 @@ void Loader::bindIndicesBuffer(std::vector<unsigned int> indices) {
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), indices.data(), GL_STATIC_DRAW);
 }
 
-void Loader::unbindVAO()
-{
+void Loader::unbindVAO() {
 	glBindVertexArray(0);
 }
 
-void Loader::cleanUp()
-{
+void Loader::cleanUp() {
 	glDeleteVertexArrays(vaoIds.size(), vaoIds.data());
 	glDeleteBuffers(vboIds.size(), vboIds.data());
 	glDeleteTextures(textureIds.size(), textureIds.data());

@@ -20,11 +20,11 @@ void main()
 	vec3 unitToCamera = normalize(toCamera);
 
 	// ambient lighting
-	vec3 ambient = ambientStrength * lightColor;
+	// vec3 ambient = ambientStrength * lightColor;
 
 	// diffuse lighting
 	float similarity = dot(unitNormal, unitToLight);
-	float brightness = max(similarity, 0);
+	float brightness = max(similarity, ambientStrength);
 	vec3 diffuse = brightness * lightColor;
 
 	// specular lighting
@@ -37,6 +37,8 @@ void main()
 	
 	// color = vec4(1.0, 1.0, 1.0, 1.0);
 	// color = texture(aTexture, texCoord);
+	// color = texture(aTexture, texCoord) + vec4(specular, 1.0);
 	// color = vec4(diffuse, 1.0) * texture(aTexture, texCoord) + vec4(specular, 1.0);
-	color = vec4(ambient + diffuse, 1.0) * texture(aTexture, texCoord) + vec4(specular, 1.0);
+	// color = vec4(ambient + diffuse, 1.0) * texture(aTexture, texCoord) + vec4(specular, 1.0);
+	color = vec4(diffuse, 1.0) * texture(aTexture, texCoord) + vec4(specular, 1.0);
 }

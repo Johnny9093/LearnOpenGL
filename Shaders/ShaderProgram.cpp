@@ -27,11 +27,11 @@ void ShaderProgram::initialize(const char *vertexFile, const char *fragmentFile)
 	getAllUniformLocations();
 }
 
-void ShaderProgram::start() {
+void ShaderProgram::start() const {
 	glUseProgram(programId);
 }
 
-void ShaderProgram::stop() {
+void ShaderProgram::stop() const {
 	glUseProgram(0);
 }
 

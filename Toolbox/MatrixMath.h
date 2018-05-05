@@ -20,8 +20,8 @@ public:
 	};
 
 	// Returns the view matrix calculated using Euler Angles and the LookAt Matrix
-	static glm::mat4 createViewMatrix(Camera camera) {
-		return glm::lookAt(camera.Position, camera.Position + camera.Front, camera.Up);
+	static glm::mat4 createViewMatrix(const Camera *camera) {
+		return glm::lookAt(camera->Position, camera->Position + camera->Front, camera->Up);
 	}
 
 	//static glm::mat4 createViewMatrix(Camera camera) {
@@ -39,8 +39,8 @@ public:
 	//	return viewMatrix;
 	//}
 
-	static glm::mat4 createProjectionMatrix(Camera camera, float aspectRatio, float nearPlane, float farPlane) {
-		glm::mat4 projectionMatrix = glm::perspective(glm::radians(camera.Zoom), aspectRatio, nearPlane, farPlane);
+	static glm::mat4 createProjectionMatrix(const float fov, const float aspectRatio, const float nearPlane, const float farPlane) {
+		glm::mat4 projectionMatrix = glm::perspective(glm::radians(fov), aspectRatio, nearPlane, farPlane);
 		return projectionMatrix;
 	}
 };

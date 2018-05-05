@@ -8,8 +8,8 @@ class ShaderProgram
 {
 public:
 	void initialize(const char *vertexFile, const char *fragmentFile);
-	void start();
-	void stop();
+	void start() const;
+	void stop() const;
 	void cleanUp();
 protected:
 	virtual void bindAttributes() = 0;

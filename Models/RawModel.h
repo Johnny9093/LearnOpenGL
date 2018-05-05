@@ -5,8 +5,8 @@ class RawModel
 public:
 	RawModel(unsigned int vaoId, unsigned int vertexCount);
 
-	unsigned int getVAO();
-	unsigned int getVertexCount();
+	const unsigned int getVAO() const;
+	const unsigned int getVertexCount() const;
 
 private:
 	unsigned int vaoId;

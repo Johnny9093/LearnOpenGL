@@ -1,6 +1,6 @@
 #include "Entity.h"
 
-Entity::Entity(TexturedModel model, glm::vec3 position, float rx, float ry, float rz, glm::vec3 scale):
+Entity::Entity(const TexturedModel model, const glm::vec3 position, const float rx, const float ry, const float rz, const glm::vec3 scale):
 	model(model) {
 	Entity::v_position = position;
 	rotationX = rx;
@@ -9,7 +9,7 @@ Entity::Entity(TexturedModel model, glm::vec3 position, float rx, float ry, floa
 	Entity::v_scale = scale;
 }
 
-Entity::Entity(TexturedModel model, float px, float py, float pz, float rx, float ry, float rz, float sx, float sy, float sz):
+Entity::Entity(const TexturedModel model, const float px, const float py, const float pz, const float rx, const float ry, const float rz, const float sx, const float sy, const float sz):
 	model(model) {
 	Entity::v_position = glm::vec3(px, py, pz);
 	rotationX = rx;
@@ -18,19 +18,19 @@ Entity::Entity(TexturedModel model, float px, float py, float pz, float rx, floa
 	Entity::v_scale = glm::vec3(sx, sy, sz);
 }
 
-void Entity::move(float dx, float dy, float dz) {
+void Entity::move(const float dx, const float dy, const float dz) {
 	v_position.x += dx;
 	v_position.y += dy;
 	v_position.z += dz;
 }
 
-void Entity::rotate(float rx, float ry, float rz) {
+void Entity::rotate(const float rx, const float ry, const float rz) {
 	rotationX += rx;
 	rotationY += ry;
 	rotationZ += rz;
 }
 
-void Entity::scale(float sx, float sy, float sz) {
+void Entity::scale(const float sx, const float sy, const float sz) {
 	v_scale.x *= sx;
 	v_scale.y *= sy;
 	v_scale.z *= sz;
@@ -40,46 +40,46 @@ TexturedModel Entity::getModel() const {
 	return model;
 }
 
-glm::vec3 Entity::getPosition() {
+glm::vec3 Entity::getPosition() const {
 	return v_position;
 }
 
-float Entity::getRotationX() {
+float Entity::getRotationX() const {
 	return rotationX;
 }
 
-float Entity::getRotationY() {
+float Entity::getRotationY() const {
 	return rotationY;
 }
 
-float Entity::getRotationZ() {
+float Entity::getRotationZ() const {
 	return rotationZ;
 }
 
-glm::vec3 Entity::getScale() {
+glm::vec3 Entity::getScale() const {
 	return v_scale;
 }
 
-void Entity::setModel(TexturedModel model) {
+void Entity::setModel(const TexturedModel model) {
 	Entity::model = model;
 }
 
-void Entity::setPosition(glm::vec3 position) {
+void Entity::setPosition(const glm::vec3 position) {
 	Entity::v_position = position;
 }
 
-void Entity::setRotationX(float rotationX) {
+void Entity::setRotationX(const float rotationX) {
 	Entity::rotationX = rotationX;
 }
 
-void Entity::setRotationY(float rotationY) {
+void Entity::setRotationY(const float rotationY) {
 	Entity::rotationY = rotationY;
 }
 
-void Entity::setRotationZ(float rotationZ) {
+void Entity::setRotationZ(const float rotationZ) {
 	Entity::rotationZ = rotationZ;
 }
 
-void Entity::setScale(glm::vec3 scale) {
+void Entity::setScale(const glm::vec3 scale) {
 	Entity::v_scale = scale;
 }
