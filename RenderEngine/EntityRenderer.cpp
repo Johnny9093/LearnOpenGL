@@ -1,14 +1,12 @@
 #include "EntityRenderer.h"
 #include "MatrixMath.h"
 #include "DisplayManager.h"
+#include "MasterRenderer.h"
 
 #include <glad/glad.h>
 
 EntityRenderer::EntityRenderer(StaticShader *shader) {
 	EntityRenderer::shader = shader;
-
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
 }
 
 void EntityRenderer::render(const std::unordered_map<TexturedModel, std::vector<Entity>, TexturedModelHasher, TexturedModelComparator> entities) const {
@@ -35,12 +33,19 @@ void EntityRenderer::prepareTexturedModel(const TexturedModel texturedModel) con
 	glEnableVertexAttribArray(2);
 
 	Texture texture = texturedModel.getTexture();
+
+	if (texture.getHasTransparency()) {
+		MasterRenderer::disableCulling();
+	}
+
+	shader->loadUseFakeLighting(texture.getUseFakeLighting());
 	shader->loadSpecularLighting(texture.getShineDamper(), texture.getReflectivity());
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture.getTextureId());
 }
 
 void EntityRenderer::unbindTexturedModel() const {
+	MasterRenderer::enableCulling();
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);

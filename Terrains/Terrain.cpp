@@ -2,7 +2,7 @@
 
 #include <vector>
 
-const short Terrain::SIZE = 800;
+const short Terrain::SIZE = 100;
 const short Terrain::VERTEX_COUNT = 128;
 
 Terrain::Terrain(float gridX, float gridZ, Loader *loader, Texture &terrainTexture): texture(terrainTexture), model(Terrain::generateTerrain(loader)) {
@@ -43,8 +43,8 @@ RawModel Terrain::generateTerrain(Loader *loader) {
 			normals[vertexPointer * 3] = 0;
 			normals[vertexPointer * 3 + 1] = 1;
 			normals[vertexPointer * 3 + 2] = 0;
-			textureCoords[vertexPointer * 2] = (float)j / ((float)VERTEX_COUNT - 1) * 10;
-			textureCoords[vertexPointer * 2 + 1] = (float)i / ((float)VERTEX_COUNT - 1) * 10;
+			textureCoords[vertexPointer * 2] = (float)j / ((float)VERTEX_COUNT - 1);
+			textureCoords[vertexPointer * 2 + 1] = (float)i / ((float)VERTEX_COUNT - 1);
 			vertexPointer++;
 		}
 	}

@@ -16,6 +16,7 @@ public:
 	void loadLight(const Light *light) const;
 	void loadSpecularLighting(float damper, float reflectivity);
 	void loadAmbientLighting(float ambientStrength);
+	void loadSkyColor(glm::vec3 skyColor);
 
 protected:
 	void bindAttributes();
@@ -33,4 +34,5 @@ private:
 	unsigned int shineDamper_location;
 	unsigned int reflectivity_location;
 	unsigned int ambientStrength_location;
+	unsigned int skyColor_location;
 };

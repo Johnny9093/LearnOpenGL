@@ -23,6 +23,8 @@ void StaticShader::getAllUniformLocations() {
 	shineDamper_location = ShaderProgram::getUniformLocation("shineDamper");
 	reflectivity_location = ShaderProgram::getUniformLocation("reflectivity");
 	ambientStrength_location = ShaderProgram::getUniformLocation("ambientStrength");
+	useFakeLighting_location = ShaderProgram::getUniformLocation("useFakeLighting");
+	skyColor_location = ShaderProgram::getUniformLocation("skyColor");
 }
 
 void StaticShader::loadTransformationMatrix(glm::mat4 matrix) const {
@@ -49,4 +51,12 @@ void StaticShader::loadSpecularLighting(float damper, float reflectivity) {
 
 void StaticShader::loadAmbientLighting(float ambientStrength) {
 	ShaderProgram::setFloat(ambientStrength_location, ambientStrength);
+}
+
+void StaticShader::loadUseFakeLighting(bool useFakeLighting) {
+	ShaderProgram::setBool(useFakeLighting_location, useFakeLighting);
+}
+
+void StaticShader::loadSkyColor(glm::vec3 skyColor) {
+	ShaderProgram::setVec3(skyColor_location, skyColor);
 }

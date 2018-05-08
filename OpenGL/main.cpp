@@ -21,7 +21,7 @@ const int HEIGHT = 600;
 const char* TITLE = "LearnOpenGL";
 
 // Camera
-Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+Camera camera(glm::vec3(80, 1, 60));
 float lastX = WIDTH / 2.0f;
 float lastY = HEIGHT / 2.0f;
 bool firstMouse = true;
@@ -35,27 +35,37 @@ int main()
 	MasterRenderer renderer = MasterRenderer(&camera);
 	Loader loader = Loader();
 
+	RawModel grassMesh = OBJLoader::loadObjModel("grassModel", loader);
+	Texture grassTexture = Texture(loader.loadTexture("res\\grassTexture.png"));
+	grassTexture.setReflectivity(0);
+	grassTexture.setShineDamper(1);
+	grassTexture.setHasTransparency(true);
+	grassTexture.setUseFakeLighting(true);
+
+	TexturedModel grassModel = TexturedModel(grassMesh, grassTexture);
+	Entity grass = Entity(grassModel, 80, 0, 50, 0, 0, 0, 0.5, 0.5, 0.5);
+
 	RawModel stickMesh = OBJLoader::loadObjModel("stickfigure", loader);
 	Texture stickTexture = Texture(loader.loadTexture("res\\wall.jpg"));
 	stickTexture.setReflectivity(1.0f);
 	stickTexture.setShineDamper(100);
 
 	TexturedModel stickModel = TexturedModel(stickMesh, stickTexture);
-	Entity stick = Entity(stickModel, 3, 0, -5, 0, 0, 0, 1, 1, 1);
+	Entity stick = Entity(stickModel, 80, 0, 50, 0, 0, 0, 1, 1, 1);
 
 	/*RawModel dragonMesh = OBJLoader::loadObjModel("dragon", loader);
-	Texture dragonTexture = Texture(loader.loadTexture("res\\dragon.png"));
+	Texture dragonTexture = Texture(loader.loadTexture("res\\white.png"));
 	dragonTexture.setReflectivity(1.0f);
 	dragonTexture.setShineDamper(200);
 
 	TexturedModel dragonModel = TexturedModel(dragonMesh, dragonTexture);
-	Entity dragon = Entity(dragonModel, 0, 0, -15, 0, 0, 0, 1, 1, 1);*/
+	Entity dragon = Entity(dragonModel, 100, 0, 20, 0, 0, 0, 1, 1, 1);*/
 
-	Light light = Light(glm::vec3(800, 200, 400), glm::vec3(1, 1, 1));
+	Light light = Light(glm::vec3(100, 50, 50), glm::vec3(1, 1, 1));
 
 	Texture terrainTexture = Texture(loader.loadTexture("res\\grass.png"));
 	terrainTexture.setReflectivity(0);
-	terrainTexture.setShineDamper(0.1);
+	terrainTexture.setShineDamper(1);
 
 	Terrain terrain1 = Terrain(0, 0, &loader, terrainTexture);
 	Terrain terrain2 = Terrain(1, 0, &loader, terrainTexture);
@@ -67,8 +77,10 @@ int main()
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 
-		renderer.addEntity(stick);
 		//renderer.addEntity(dragon);
+		renderer.addEntity(stick);
+		renderer.addEntity(grass);
+
 		renderer.addTerrain(&terrain1);
 		renderer.addTerrain(&terrain2);
 
@@ -99,7 +111,7 @@ void processInput(GLFWwindow *window) {
 	float velocityModifier = 1.0f;
 
 	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-		velocityModifier = 100.0f;
+		velocityModifier = 15;
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)

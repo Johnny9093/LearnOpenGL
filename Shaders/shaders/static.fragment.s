@@ -4,6 +4,7 @@ in vec2 texCoord;
 in vec3 surfaceNormal;
 in vec3 toLight;
 in vec3 toCamera;
+in float visibility;
 
 out vec4 color;
 
@@ -12,9 +13,16 @@ uniform vec3 lightColor;
 uniform float shineDamper;
 uniform float reflectivity;
 uniform float ambientStrength;
+uniform vec3 skyColor;
 
 void main()
 {
+	vec4 textureColor = texture(aTexture, texCoord);
+
+	if (textureColor.a < 0.5) {
+		discard;
+	}
+
 	vec3 unitNormal = normalize(surfaceNormal);
 	vec3 unitToLight = normalize(toLight);
 	vec3 unitToCamera = normalize(toCamera);
@@ -39,5 +47,6 @@ void main()
 	// color = texture(aTexture, texCoord);
 	// color = texture(aTexture, texCoord) + vec4(specular, 1.0);
 	// color = vec4(diffuse, 1.0) * texture(aTexture, texCoord) + vec4(specular, 1.0);
-	color = vec4(ambient + diffuse, 1.0) * texture(aTexture, texCoord) + vec4(specular, 1.0);
+	color = vec4(ambient + diffuse, 1.0) * textureColor + vec4(specular, 1.0);
+	color = mix(vec4(skyColor, 1.0), color, visibility);
 }

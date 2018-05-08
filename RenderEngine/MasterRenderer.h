@@ -20,6 +20,9 @@ public:
 	void addTerrain(const Terrain *terrain);
 	void cleanUp();
 
+	const static void enableCulling();
+	const static void disableCulling();
+
 private:
 	static const float NEAR_PLANE;
 	static const float FAR_PLANE;

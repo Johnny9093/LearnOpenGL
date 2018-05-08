@@ -15,8 +15,8 @@ RawModel Loader::loadToVAO(std::vector<float> vertices, std::vector<float> textu
 }
 
 unsigned int Loader::loadTexture(const char *texturePath) {
-	// Flip texture vertically to match coordinate system
-	stbi_set_flip_vertically_on_load(true);
+	//// Flip texture vertically to match coordinate system
+	//stbi_set_flip_vertically_on_load(true);
 
 	// Create and bind texture
 	unsigned int texture;
@@ -33,11 +33,11 @@ unsigned int Loader::loadTexture(const char *texturePath) {
 
 	// Load texture image
 	int width, height, nrChannels;
-	unsigned char *imgData = stbi_load(texturePath, &width, &height, &nrChannels, 0);
+	unsigned char *imgData = stbi_load(texturePath, &width, &height, &nrChannels, STBI_rgb_alpha);
 
 	if (imgData) {
 		// Generate texture and mipmaps
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, imgData);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imgData);
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	else {

@@ -23,6 +23,7 @@ void TerrainShader::getAllUniformLocations() {
 	shineDamper_location = ShaderProgram::getUniformLocation("shineDamper");
 	reflectivity_location = ShaderProgram::getUniformLocation("reflectivity");
 	ambientStrength_location = ShaderProgram::getUniformLocation("ambientStrength");
+	skyColor_location = ShaderProgram::getUniformLocation("skyColor");
 }
 
 void TerrainShader::loadTransformationMatrix(glm::mat4 matrix) const {
@@ -49,4 +50,8 @@ void TerrainShader::loadSpecularLighting(float damper, float reflectivity) {
 
 void TerrainShader::loadAmbientLighting(float ambientStrength) {
 	ShaderProgram::setFloat(ambientStrength_location, ambientStrength);
+}
+
+void TerrainShader::loadSkyColor(glm::vec3 skyColor) {
+	ShaderProgram::setVec3(skyColor_location, skyColor);
 }
